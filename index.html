@@ -3281,10 +3281,11 @@ for(const a of anims)a(t);
 T.fall.offset.y=(T.fall.offset.y+dt*1.3)%1;T.water.offset.x=(T.water.offset.x+dt*.04)%1;
 ui();}
 
-// ===================== [PRELOADER] black screen → dig a hole → fall through → existing cart landing =====================
+// ===================== [PRELOADER] black screen → dig through Minecraft ground → fall down the shaft → existing cart landing =====================
 // Uses the real rider (same model, materials, proportions) inside the real scene with the real hero camera.
-// The black layer is a screen-space mask over the world; the camera follows the rider down through the hole and
-// reaches the exact hero framing at the moment he reaches the cart, where the existing intro landing takes over.
+// Above the surface is black void. Below it is a band of Minecraft ground (grass, dirt, stone + ores, deepslate) that is
+// only visible where the miner's helmet lamp (and, near the bottom, daylight from the world below) lights it.
+// The camera follows the rider down the shaft and reaches the exact hero framing as he reaches the cart.
 const PRE=(()=>{
 const P={active:false};const de=document.documentElement;
 if(!de.classList.contains('pl-on')||window.__plFailed)return P;
@@ -3297,15 +3298,21 @@ let worldReady=false,readyFrames=0;const mark=()=>{worldReady=true;};signsReady.
 const isReady=()=>worldReady&&readyFrames>=2;
 // (plays regardless of the OS reduced-motion setting, by request)
 
-const V3=THREE.Vector3,_a=new V3(),_b=new V3(),_c=new V3(),ray=new THREE.Raycaster(),pz=new THREE.Plane(new V3(0,0,1),0);
-const L={};const G=22*1.4,HOP=1.5*1.4,TP=.56; // gravity = the existing intro's (22 local units/s² × cart scale)
-let Pn=0;   // current camera pan (world units above the hero framing)
+const V3=THREE.Vector3,_a=new V3(),_b=new V3(),_c=new V3(),_m=new THREE.Matrix4(),_col=new THREE.Color(),ray=new THREE.Raycaster(),pz=new THREE.Plane(new V3(0,0,1),0);
+const L={};const G=22*1.4,HOP=1.5*1.4,TP=.56;  // gravity = the existing intro's (22 local units/s² × cart scale)
+const NR=30;                                     // ground thickness in blocks (the shaft he falls down)
+const SIDE=Math.PI/2,FRONT=.35;                  // profile (facing right) while digging → original cart pose on landing
+let Pn=0;                                        // current camera pan (world units above the hero framing)
 // start already settled on the final hero framing so the rider's screen X never drifts
 curD=baseD;S.camX=(H()<520?0:.2)*2*curD*hfovT();
 cart.position.set(0,ty(0)+.33,0);cart.rotation.z=Math.atan(slope(0));
+// side-view digging pose: profile, straight legs in a planted stance
+const legs=rider.g.children[0].children.filter(o=>o.isGroup&&Math.abs(o.position.y-.75)<1e-6&&Math.abs(Math.abs(o.position.x)-.13)<1e-6);
+const LEG0=legs.map(l=>l.rotation.x),STANCE=[.2,-.2];
+legs.forEach((l,i)=>l.rotation.x=STANCE[i]);
+rider.g.rotation.order='YXZ';rider.g.rotation.set(0,SIDE,0);
 rider.g.position.set(0,0,0);cart.updateMatrixWorld(true);
 const fb=new THREE.Box3().setFromObject(rider.g);rider.g.getWorldPosition(_a);const feetOff=_a.y-fb.min.y;
-rider.g.rotation.order='YXZ';
 // minimal pickaxe in the rider's hand (temporary)
 const pick=new THREE.Group();pick.position.set(0,-.58,0);rider.armR.add(pick);
 bx(pick,'#4e2a10',.085,.2,.085,0,-.04,0);bx(pick,'#8a5a2a',.07,.74,.07,0,-.5,0);
@@ -3316,20 +3323,29 @@ rider.g.traverse(o=>o.layers.enable(1));
 // stencil helpers
 const stn=(f,zp)=>({depthTest:false,depthWrite:false,stencilWrite:true,stencilRef:1,stencilFunc:f,stencilFail:THREE.KeepStencilOp,stencilZFail:THREE.KeepStencilOp,stencilZPass:zp||THREE.KeepStencilOp});
 const riderSt=new THREE.MeshBasicMaterial(Object.assign({colorWrite:false},stn(THREE.AlwaysStencilFunc,THREE.ReplaceStencilOp),{depthTest:true}));
-const winMat=new THREE.MeshBasicMaterial(Object.assign({colorWrite:false},stn(THREE.AlwaysStencilFunc,THREE.ReplaceStencilOp)));
-const pitMats=['#5a3a1e','#4a2f17','#3f2813','#6b4423','#533619'].map(c=>new THREE.MeshBasicMaterial(Object.assign({color:c},stn(THREE.NotEqualStencilFunc))));
 const sq=new THREE.PlaneGeometry(1,1);
-// the hole: a 6×6 grid of block cells under the rider's feet
-const ov=new THREE.Scene(),cells=[];
-for(let r=0;r<6;r++)for(let c=0;c<6;c++){const m=new THREE.Mesh(sq,pitMats[(Math.random()*pitMats.length)|0]);m.userData.r=r;m.userData.c=c;m.userData.pit=m.material;m.visible=false;ov.add(m);cells.push(m);}
-const SH=[[],[[0,2,3]],[[0,1,4],[1,2,3]],[[0,1,4],[1,1,4],[2,1,4],[3,2,3]],[[0,1,4],[1,1,4],[2,1,4],[3,1,4],[4,2,3]],[[0,0,5],[1,0,5],[2,0,5],[3,0,5],[4,0,5],[5,0,5]]];
-P.stage=0;function setStage(n){P.stage=n;const on=new Set();for(const[r,a,b]of SH[n])for(let c=a;c<=b;c++)on.add(r*6+c);cells.forEach((m,i)=>{m.visible=on.has(i);m.material=n===5?winMat:m.userData.pit;});}
+// ---- Minecraft ground: block textures (reusing the world's own grass/dirt/stone/dark-stone, plus three ores in the same style)
+const ore=(base,c1,c2)=>mk((g,s)=>{noise(g,s,base,base[0]>100?24:12);spots(g,'rgba(0,0,0,.25)',8,2);
+  for(const[x,y]of[[3,3],[9,2],[5,9],[11,10],[2,12],[12,5]]){g.fillStyle=c1;g.fillRect(x,y,2,2);g.fillStyle=c2;g.fillRect(x+1,y+1,1,1);}shade(g,s,.15,.34);});
+const oreTex=[ore([146,146,148],'#2b2b2b','#4a4a4a'),ore([146,146,148],'#d8a07a','#f0c8a8'),ore([58,55,58],'#4fd6d0','#a8f4ee')];
+const KINDS=[T.grassSide,T.dirt,T.stone,oreTex[0],oreTex[1],T.dstone,oreTex[2]]; // grass, dirt, stone, coal, iron, deepslate, diamond
+const CAP=1100,gS=new THREE.Scene(),gMats=[],gMesh=KINDS.map(tex=>{const mt=new THREE.MeshBasicMaterial(Object.assign({map:tex},stn(THREE.NotEqualStencilFunc)));gMats.push(mt);
+  const m=new THREE.InstancedMesh(sq,mt,CAP);m.frustumCulled=false;m.setColorAt(0,_col.set(1,1,1));m.count=0;gS.add(m);return m;});
+const hsh=(c,r)=>{const x=Math.sin(c*127.1+r*311.7)*43758.5453;return x-Math.floor(x);};
+function kind(r,c){const h=hsh(c,r);if(r===0)return 0;if(r<=2||(r===3&&h>.35))return 1;
+  if(r<18||(r<20&&h<.5)){if(r>=5&&h<.07)return 3;if(r>=8&&h<.105)return 4;return 2;}
+  if(r>=23&&h<.035)return 6;return 5;}
+// dig stages: cells (row, from col, to col) inside the 6-wide hole; front-weighted because he faces right
+const SH=[[],[[0,3,4]],[[0,2,5],[1,3,4]],[[0,1,5],[1,2,5],[2,3,4]],[[0,1,5],[1,1,5],[2,2,5],[3,2,4]]];
+const dug=new Set();P.stage=0;
+function setStage(n){P.stage=n;dug.clear();if(n<5)for(const[r,a,b]of SH[n])for(let c=a;c<=b;c++)dug.add(r*6+c);}
+const isAir=(r,c)=>c>=0&&c<=5&&(P.stage===5||(r<6&&dug.has(r*6+c)));
 // black layer (screen space)
 const oCam=new THREE.OrthographicCamera(-1,1,1,-1,0,2),mS=new THREE.Scene();
 const mask=new THREE.Mesh(sq,new THREE.MeshBasicMaterial(Object.assign({color:'#000000'},stn(THREE.NotEqualStencilFunc))));mask.position.z=-1;mS.add(mask);
-// dirt particles
-const parts=[],pMats=['#8a5a2a','#6b4423','#a8743e','#4e3219','#9aa0a8'].map(c=>new THREE.MeshBasicMaterial({color:c}));
-function burst(x,y,n,grey){const k=L.cell/.35;for(let i=0;i<n&&parts.length<28;i++){const m=new THREE.Mesh(UB,pMats[grey?4:(Math.random()*4|0)]);m.layers.enable(1);const sc=L.cell*(.32+Math.random()*.22);m.scale.setScalar(sc);m.position.set(x+(Math.random()-.5)*L.cell*1.2,y+L.cell*.15,(Math.random()-.5)*.3);scene.add(m);
+// block fragments
+const parts=[],pMats=['#8a5a2a','#6b4423','#a8743e','#5d9c34','#9aa0a8','#6f6f73'].map(c=>new THREE.MeshBasicMaterial({color:c}));
+function burst(x,y,n,stone){const k=L.cell/.35;for(let i=0;i<n&&parts.length<30;i++){const m=new THREE.Mesh(UB,pMats[stone?4+(Math.random()*2|0):(Math.random()*4|0)]);m.layers.enable(1);const sc=L.cell*(.3+Math.random()*.22);m.scale.setScalar(sc);m.position.set(x+(Math.random()-.5)*L.cell*1.2,y+L.cell*.15,(Math.random()-.5)*.3);scene.add(m);
   const dir=Math.random()<.5?-1:1;parts.push({m,sc,vx:dir*(.9+Math.random()*1.8)*k,vy:(2.6+Math.random()*2.2)*k,g:15*k,life:0,max:.55+Math.random()*.3,rx:(Math.random()-.5)*12,rz:(Math.random()-.5)*12});}}
 function stepParts(dt){for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.life+=dt;if(p.life>=p.max){scene.remove(p.m);parts.splice(i,1);continue;}
   p.vy-=p.g*dt;p.m.position.x+=p.vx*dt;p.m.position.y+=p.vy*dt;p.m.rotation.x+=p.rx*dt;p.m.rotation.z+=p.rz*dt;const f=1-p.life/p.max;p.m.scale.setScalar(p.sc*Math.min(1,f*2.2));}}
@@ -3338,22 +3354,38 @@ function layout(){placeCam(S.camX,curD);cam.updateMatrixWorld();cart.updateMatri
   wrap.getWorldPosition(_a);L.wx=_a.x;L.wy=_a.y;_b.copy(_a).project(cam);L.nx=_b.x;   // rider-in-cart screen X
   ray.setFromCamera({x:L.nx,y:1},cam);ray.ray.intersectPlane(pz,_c);L.yt=_c.y;
   ray.setFromCamera({x:L.nx,y:-1},cam);ray.ray.intersectPlane(pz,_c);L.yb=_c.y;
-  L.Hv=L.yt-L.yb;L.depth=.15*L.Hv;L.cell=L.depth/6;L.feet=L.yt+L.depth;L.y0=L.feet+feetOff;}
+  L.Hv=L.yt-L.yb;L.cell=.025*L.Hv;                 // one block = 2.5% of the screen height
+  L.seam=L.yt;L.surf=L.seam+NR*L.cell;             // ground band sits directly above the hero view
+  L.P0=L.surf-L.yb-.15*L.Hv;                       // dig view: surface 15% above the bottom edge
+  L.y0=L.surf+feetOff;}
 // world X that projects to the hero rider's screen X at world height y (in hero-camera space)
 function xLock(y){const a=_b.set(0,y,0).project(cam).x,b=_c.set(1,y,0).project(cam).x;return Math.abs(b-a)<1e-9?L.wx:(L.nx-a)/(b-a);}
 function place(yw){const x=xLock(yw-Pn);rider.g.position.copy(wrap.worldToLocal(_a.set(x,yw,0)));}
+// light the ground: helmet lamp (stepped like Minecraft light levels) + daylight seeping up from the world below
+function buildGround(){const cell=L.cell;rider.g.getWorldPosition(_c);const lx=_c.x,ly=_c.y+.35*1.4;   // light centred on his body (helmet lamp + glow)
+  const lc=(lx-L.xc)/cell+2.5,lr=(L.surf-ly)/cell-.5;const cnt=new Array(KINDS.length).fill(0);
+  for(let r=0;r<NR;r++){const fromBot=NR-1-r;
+    for(let c=-18;c<=23;c++){const d=Math.hypot(c-lc,r-lr);let lv=Math.floor(15-d*.82);
+      let b=lv>0?Math.pow(lv/15,1.05):0;
+      if(fromBot<7){const g=(1-fromBot/7)*Math.max(0,1-Math.abs(c-2.5)/20);b=Math.max(b,.95*g);}
+      if(b<.03)continue;if(isAir(r,c))b*=.22;
+      const k=kind(r,c),i=cnt[k]++;if(i>=CAP)continue;
+      _m.makeScale(cell*1.003,cell*1.003,1);_m.setPosition(L.xc+(c-2.5)*cell,L.surf-(r+.5)*cell,0);
+      gMesh[k].setMatrixAt(i,_m);gMesh[k].setColorAt(i,_col.setScalar(b));}}
+  gMesh.forEach((m,k)=>{m.count=Math.min(cnt[k],CAP);m.instanceMatrix.needsUpdate=true;if(m.instanceColor)m.instanceColor.needsUpdate=true;});}
 const lerp=(a,b,t)=>a+(b-a)*t;
-P.st='dig';P.t=0;P.k=-1;let aNow=-.75,y0=0,ft=0,rt=0,aR=0;
+P.st='dig';P.t=0;P.k=-1;let aNow=-.35,y0=0,ft=0,rt=0,aR=0;
 function strike(){tip.getWorldPosition(_a);const x=clamp(_a.x,L.xc-2*L.cell,L.xc+2*L.cell);
-  if(P.stage<4){setStage(P.stage+1);burst(x,L.feet,5);}
-  else if(P.stage===4&&(isReady()||P.t>12)){setStage(5);burst(x,L.feet,4);burst(x,L.feet,4,true);pick.visible=false;P.st='react';rt=0;aR=aNow;}
-  else burst(x,L.feet,3);}   // world not ready yet: keep digging naturally, no growth
+  if(P.stage<4){setStage(P.stage+1);burst(x,L.surf,5,P.stage>3);}
+  else if(P.stage===4&&(isReady()||P.t>12)){setStage(5);burst(x,L.surf,4);burst(x,L.surf-L.cell*2,4,true);pick.visible=false;P.st='react';rt=0;aR=aNow;}
+  else burst(x,L.surf,3);}   // world not ready yet: keep digging naturally, no growth
 function finish(landed){
   for(const p of parts)scene.remove(p.m);parts.length=0;
   if(pick.parent)pick.parent.remove(pick);
-  rider.g.traverse(o=>o.layers.disable(1));rider.g.rotation.order='XYZ';rider.g.rotation.set(0,.35,0);rider.head.rotation.x=0;
-  rider.armL.rotation.x=rider.armR.rotation.x=-2.8;
-  [riderSt,winMat,mask.material,...pitMats,...pMats].forEach(m=>m.dispose());sq.dispose();
+  rider.g.traverse(o=>o.layers.disable(1));rider.g.rotation.order='XYZ';rider.g.rotation.set(0,FRONT,0);rider.head.rotation.x=0;
+  legs.forEach((l,i)=>l.rotation.x=LEG0[i]);rider.armL.rotation.x=rider.armR.rotation.x=-2.8;
+  gMesh.forEach(m=>{gS.remove(m);if(m.dispose)m.dispose();});oreTex.forEach(t=>t.dispose());
+  [riderSt,mask.material,...gMats,...pMats].forEach(m=>m.dispose());sq.dispose();
   scene.overrideMaterial=null;cam.layers.set(0);renderer.autoClear=true;Pn=0;P.active=false;
   if(landed){rider.g.position.set(0,0,0);S.mode='intro';S.it=1.0;}   // hand over to the existing landing (squash + arms)
   else{rider.g.position.set(0,11,0);S.mode='intro';S.it=0;}          // fallback: original intro from the top
@@ -3361,43 +3393,43 @@ function finish(landed){
 function abort(e){if(!P.active)return;try{console.warn('Preloader skipped:',e);finish(false);}catch(_){P.active=false;S.mode='intro';S.it=0;de.classList.remove('pl-on');hideCover();}}
 P.step=dt=>{try{
   if(window.__plFailed){abort('fail-safe');return;}
-  layout();
-  L.xc=xLock(L.feet-L.Hv);
-  for(const m of cells){m.position.set(L.xc+(m.userData.c-2.5)*L.cell,L.feet-(m.userData.r+.5)*L.cell,0);m.scale.set(L.cell*1.003,L.cell*1.003,1);}
+  layout();L.xc=xLock(L.surf-L.P0);
   stepParts(dt);
   if(P.st==='dig'){
     P.t+=dt;const cyc=Math.floor(P.t/TP),u=(P.t-cyc*TP)/TP;let a;
-    if(u<.55){const v=u/.55;a=-.75-2.15*(1-(1-v)*(1-v));}          // wind up overhead
-    else if(u<.7){const v=(u-.55)/.15;a=-2.9+2.15*v*v;}             // chop down
-    else{const v=(u-.7)/.3;a=-.75-.2*Math.sin(Math.PI*v);}            // small recoil
-    aNow=a;rider.armR.rotation.x=rider.armL.rotation.x=a;rider.g.rotation.x=-.06+(a+2.9)/2.15*.24;rider.head.rotation.x=.32;
-    Pn=L.Hv;place(L.y0);
+    if(u<.55){const v=u/.55;a=-.35-2.55*(1-(1-v)*(1-v));}           // wind up overhead
+    else if(u<.7){const v=(u-.55)/.15;a=-2.9+2.55*v*v;}              // chop down at the block in front of his feet
+    else{const v=(u-.7)/.3;a=-.35-.22*Math.sin(Math.PI*v);}           // small recoil
+    aNow=a;rider.armR.rotation.x=rider.armL.rotation.x=a;rider.g.rotation.x=-.08+(a+2.9)/2.55*.3;rider.head.rotation.x=.38;
+    Pn=L.P0;place(L.y0);
     if(u>=.7&&P.k<cyc){P.k=cyc;strike();}
-  }else if(P.st==='react'){                                           // hole opens: look down, arms fly up
+  }else if(P.st==='react'){                                           // the floor gives way: look down, arms fly up
     rt+=dt;const e=Math.min(1,rt/.18),ee=1-(1-e)*(1-e);
     aNow=lerp(aR,-2.8,ee);rider.armR.rotation.x=rider.armL.rotation.x=aNow;
-    rider.head.rotation.x=lerp(.32,.55,ee);rider.g.rotation.x=lerp(rider.g.rotation.x,-.1,Math.min(1,dt*10));
-    Pn=L.Hv;place(L.y0);if(rt>=.42){P.st='fall';ft=0;y0=L.y0;}
-  }else if(P.st==='fall'){                                            // fall through; camera follows; black layer lifts away
+    rider.head.rotation.x=lerp(.38,.6,ee);rider.g.rotation.x=lerp(rider.g.rotation.x,-.1,Math.min(1,dt*10));
+    Pn=L.P0;place(L.y0);if(rt>=.42){P.st='fall';ft=0;y0=L.y0;}
+  }else if(P.st==='fall'){                                            // fall down the shaft; camera follows; ground scrolls away
     ft+=dt;const yw=y0+HOP*ft-.5*G*ft*ft;
     if(yw<=L.wy){finish(true);return;}
-    const q=clamp((y0-yw)/(y0-L.wy),0,1),s=q*q*(3-2*q),ys0=y0-L.Hv,ys=ys0+(L.wy-ys0)*s;
-    Pn=clamp(yw-ys,0,L.Hv);
-    rider.armR.rotation.x=rider.armL.rotation.x=-2.8;rider.head.rotation.x=.55*(1-q);rider.g.rotation.x=-.1*(1-q);
+    const q=clamp((y0-yw)/(y0-L.wy),0,1),s=q*q*(3-2*q),ys0=y0-L.P0,ys=ys0+(L.wy-ys0)*s;
+    Pn=clamp(yw-ys,0,L.P0);
+    const tq=Math.min(1,q/.75),ts=tq*tq*(3-2*tq);                  // turn from profile to the cart pose during the fall
+    rider.g.rotation.y=lerp(SIDE,FRONT,ts);legs.forEach((l,i)=>l.rotation.x=lerp(STANCE[i],LEG0[i],ts));
+    rider.armR.rotation.x=rider.armL.rotation.x=-2.8;rider.head.rotation.x=.6*(1-ts);rider.g.rotation.x=-.1*(1-ts);
     place(yw);
   }
+  buildGround();
 }catch(e){abort(e);}};
 P.pan=()=>{if(!P.active)return;cam.position.y+=Pn;cam.lookAt(S.camX,TY+Pn,-1);cam.updateMatrixWorld();};
 P.render=()=>{try{
   renderer.autoClear=true;renderer.render(scene,cam);                 // 1. world, normal lighting/shadows/depth
   renderer.autoClear=false;
   const au=renderer.shadowMap.autoUpdate;renderer.shadowMap.autoUpdate=false;
-  scene.overrideMaterial=riderSt;cam.layers.set(1);renderer.render(scene,cam);   // 2. mark visible rider/pickaxe/dirt pixels
+  scene.overrideMaterial=riderSt;cam.layers.set(1);renderer.render(scene,cam);   // 2. mark visible rider/pickaxe/fragment pixels
   cam.layers.set(0);scene.overrideMaterial=null;renderer.shadowMap.autoUpdate=au;
-  if(P.stage===5)renderer.render(ov,cam);                             // 3. open hole = window into the world
-  let ny=_a.set(L.xc,L.yt,0).project(cam).y;if(Pn>=L.Hv-1e-4)ny=-1.05;ny=clamp(ny,-1.05,1);
-  if(ny<1){mask.scale.set(2.1,1-ny,1);mask.position.set(0,(1+ny)/2,-1);renderer.render(mS,oCam);}   // 4. black layer
-  if(P.stage>0&&P.stage<5)renderer.render(ov,cam);                    // 5. dug pit, behind the rider
+  let ny=_a.set(L.xc,L.seam,0).project(cam).y;if(Pn>=L.P0-1e-4)ny=-1.05;ny=clamp(ny,-1.05,1);
+  if(ny<1){mask.scale.set(2.1,1-ny,1);mask.position.set(0,(1+ny)/2,-1);renderer.render(mS,oCam);   // 3. black void + unlit ground
+    renderer.render(gS,cam);}                                         // 4. lit ground blocks, behind the rider
   renderer.autoClear=true;
   if(worldReady)readyFrames++;
   if(!P.shown){P.shown=true;requestAnimationFrame(hideCover);}        // first real frame drawn → drop the DOM cover

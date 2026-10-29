@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-saved=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'"><noscript><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css"></noscript><style>
+<html data-saved=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><script>/* [PRELOADER] bootstrap: black screen from the first paint, with fail-safes so the page can never stay black */(function(){var d=document.documentElement;d.classList.add('pl-on');function fail(){window.__plFailed=true;d.classList.remove('pl-on');var o=document.getElementById('vd-pre');if(o&&o.parentNode)o.parentNode.removeChild(o);}window.__plFail=fail;window.__plWatch=setTimeout(function(){if(!window.__plLive)fail();},15000);})();</script><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'"><noscript><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css"></noscript><style>
 :root{--font-anthropic-sans:"anthropic-sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;--font-anthropic-serif:"anthropic-serif", ui-serif, Georgia, "Times New Roman", serif}
 :root {
   --radius: calc(0.5rem * var(--cds-rem-scale, 1));
@@ -2683,7 +2683,7 @@ body[data-not-sent] > #vis-container ~ #not-sent {
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 }</style><style>body { padding: 16px; background: var(--surface-1); }
-#vis-container { overflow: visible; }</style></head><body><svg style="position:absolute;width:0;height:0" aria-hidden="true">
+#vis-container { overflow: visible; }</style></head><body><div id="vd-pre" aria-hidden="true"></div><svg style="position:absolute;width:0;height:0" aria-hidden="true">
     <defs>
       <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -2758,6 +2758,18 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 #vd.short #hint{bottom:8px;padding:6px 10px}
 #vd.short #reopen{bottom:8px}
 
+
+/* ===================== [PRELOADER] black screen while the world loads ===================== */
+#vd-pre{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;z-index:2147483647;pointer-events:all}
+html:not(.pl-on) #vd-pre{display:none}
+html,body{transition:background-color .6s}
+html.pl-on,html.pl-on body{background:#000!important}
+html.pl-on #vd{background:#000!important}
+/* every UI layer stays hidden and untouchable until the rider lands */
+html.pl-on #vd>:not(canvas){opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+html.pl-in #nav,html.pl-in #hero,html.pl-in #hint,html.pl-in #burger,html.pl-in #mctl{animation:plIn .6s ease-out backwards}
+@keyframes plIn{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){html.pl-in #nav,html.pl-in #hero,html.pl-in #hint,html.pl-in #burger,html.pl-in #mctl{animation:none}}
 /* ===================== [MOBILE UPDATE] mobile controls, menu & layout ===================== */
 /* New elements are hidden on desktop; the media query below turns them on. */
 #mctl,#burger,#mnav,#mback{display:none}
@@ -2859,9 +2871,9 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-(()=>{
+(()=>{try{
 const root=document.getElementById('vd');const $=i=>document.getElementById(i);
-if(!window.THREE){root.insertAdjacentHTML('beforeend','<p style="position:absolute;left:20px;bottom:120px;color:#2a1607;font-size:14px">The 3D engine could not load. Reload to try again.</p>');return;}
+if(!window.THREE){if(window.__plFail)window.__plFail();root.insertAdjacentHTML('beforeend','<p style="position:absolute;left:20px;bottom:120px;color:#2a1607;font-size:14px">The 3D engine could not load. Reload to try again.</p>');return;}
 const W=()=>root.clientWidth||680,H=()=>root.clientHeight||620;
 const clamp=(v,a,b)=>v<a?a:v>b?b:v;
 let seed=4242;const rnd=()=>{seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
@@ -3155,10 +3167,10 @@ bx(head,'#1f2430',.09,.09,.02,-.12,.27,.265);bx(head,'#1f2430',.09,.09,.02,.12,.
 body.add(head);body.position.y=-.75;return{g,head,armL,armR};}
 const rider=makeRider();rider.g.rotation.y=.35;wrap.add(rider.g);rider.g.position.y=11;
 const fontReady=document.fonts&&document.fonts.load?Promise.race([Promise.all([document.fonts.load('42px "Press Start 2P"'),document.fonts.load('800 70px Rubik'),document.fonts.load('700 44px Rubik')]),new Promise(r=>setTimeout(r,2200))]):Promise.resolve();
-fontReady.catch(()=>{}).then(()=>signs.forEach(s=>{const tex=s.k==='edme'?edmeSign():s.k==='wood'?woodSign(s.txt,s.icon):textTex(s.txt,s.o||{});plane(tex,s.w,s.h,s.x,s.y,s.z);}));
+const signsReady=fontReady.catch(()=>{}).then(()=>signs.forEach(s=>{const tex=s.k==='edme'?edmeSign():s.k==='wood'?woodSign(s.txt,s.icon):textTex(s.txt,s.o||{});plane(tex,s.w,s.h,s.x,s.y,s.z);}));
 const STOPS=[{x:37,c:47.5,k:'p',n:1},{x:85,c:96.5,k:'p',n:2},{x:133,c:145,k:'p',n:3},{x:183,c:190.75,k:'c'}];
 const NEED=24;
-const RESUME='https://drive.google.com/file/d/1Lvx7to9XjeEAgrXfOYAyqu81L6tWaNlv/view?usp=sharing';
+const RESUME='https://drive.google.com/file/d/10mtPkUOrWPgU79WdUdrXYVoLXZhzHQQN/view?usp=sharing';
 const LINKEDIN='https://www.linkedin.com/in/nishant-j-dixit/';const EMAIL='hello.nishantjdixit@gmail.com';
 
 const P = [
@@ -3248,31 +3260,156 @@ const away=S.x>1.5?true:S.x<.25?false:!!uiAway;if(away!==uiAway){uiAway=away;ml.
 const r=(S.parked>=0&&S.card===null&&S.mode==='free')?'Open '+nameOf(S.parked):'';if(r!==uiReo){uiReo=r;reo.textContent=r;reo.style.display=r?'inline-flex':'none';}}
 let pv=0;
 function step(dt){S.t+=dt;const t=S.t;
-if(S.mode==='intro'){S.it+=dt;const T1=1.0;if(S.it<T1){const u=S.it/T1;rider.g.position.y=11*(1-u*u);rider.armL.rotation.x=rider.armR.rotation.x=-2.8;}else{const u=Math.min(1,(S.it-T1)/.4),q=Math.sin(Math.PI*u);rider.g.position.y=0;rider.g.scale.set(1+.05*q,1-.09*q,1+.05*q);cartBody.position.y=-.05*q;const e=1-Math.pow(1-u,3);rider.armL.rotation.x=rider.armR.rotation.x=-2.8+1.8*e;if(u>=1){rider.g.scale.setScalar(1);cartBody.position.y=0;S.mode='free';if(S.pending!==null){const p=S.pending;S.pending=null;if(p<0)goHome();else goTo(p);}}}}
+if(S.mode==='pre'){PRE.step(dt);}
+else if(S.mode==='intro'){S.it+=dt;const T1=1.0;if(S.it<T1){const u=S.it/T1;rider.g.position.y=11*(1-u*u);rider.armL.rotation.x=rider.armR.rotation.x=-2.8;}else{const u=Math.min(1,(S.it-T1)/.4),q=Math.sin(Math.PI*u);rider.g.position.y=0;rider.g.scale.set(1+.05*q,1-.09*q,1+.05*q);cartBody.position.y=-.05*q;const e=1-Math.pow(1-u,3);rider.armL.rotation.x=rider.armR.rotation.x=-2.8+1.8*e;if(u>=1){rider.g.scale.setScalar(1);cartBody.position.y=0;S.mode='free';if(S.pending!==null){const p=S.pending;S.pending=null;if(p<0)goHome();else goTo(p);}}}}
 else if(S.mode==='free'){if(S.rel&&!keys.l&&!keys.r)S.rel=false;const d=S.rel?0:(keys.r?1:0)-(keys.l?1:0);if(d!==0){closeCard();S.cam='follow';}
 const ac=d!==0?15:22;S.v+=clamp(d*9-S.v,-ac*dt,ac*dt);const px=S.x;let nx=S.x+S.v*Math.cos(Math.atan(slope(S.x)))*dt;const mx=STOPS[3].x;if(nx<=0){nx=0;S.v=0;}if(nx>=mx)nx=mx;S.x=nx;
 if(S.parked>=0&&Math.abs(S.x-STOPS[S.parked].x)>3)S.parked=-1;
 if(Math.abs(S.v)>.05){for(let i=0;i<4;i++){if(i===S.parked)continue;const s=STOPS[i].x;if((px-s)*(nx-s)<0||(nx===s&&px!==s)){arriveAt(i);break;}const dd=s-nx;if(Math.abs(dd)<2.6&&Math.sign(dd)===Math.sign(S.v)){travel(s,i,Math.max(Math.abs(S.v),2.5),7);break;}}}}
 else if(S.mode==='travel'){const dd=S.dest-S.x,ad=Math.abs(dd);if(ad<.004){S.x=S.dest;endTravel();}else{const dir=Math.sign(dd);const want=dir*Math.min(S.maxV,Math.sqrt(2*S.dec*ad));S.v+=clamp(want-S.v,-30*dt,30*dt);const nx=S.x+S.v*dt;if((nx-S.dest)*dir>=0){S.x=S.dest;endTravel();}else S.x=nx;}}
 const sl=slope(S.x);cart.position.set(S.x,ty(S.x)+.33,0);cart.rotation.z=Math.atan(sl);for(const w of wheels)w.rotation.z-=S.v*dt/.23;
-if(S.mode!=='intro'){const acc=(S.v-pv)/Math.max(dt,1e-3);wrap.rotation.z+=(clamp(acc*.006-Math.atan(sl)*.35,-.2,.2)-wrap.rotation.z)*Math.min(1,dt*6);rider.head.rotation.y=.2*Math.sin(t*.7);
+if(S.mode!=='intro'&&S.mode!=='pre'){const acc=(S.v-pv)/Math.max(dt,1e-3);wrap.rotation.z+=(clamp(acc*.006-Math.atan(sl)*.35,-.2,.2)-wrap.rotation.z)*Math.min(1,dt*6);rider.head.rotation.y=.2*Math.sin(t*.7);
 const down=Math.sign(S.v)*sl<-.12&&Math.abs(S.v)>3;const ta=down?-2.85:-1.05;rider.armL.rotation.x+=(ta-rider.armL.rotation.x)*Math.min(1,dt*7);rider.armR.rotation.x+=(ta-rider.armR.rotation.x)*Math.min(1,dt*7);
 cartBody.position.y=.012*Math.sin(S.x*9)*Math.min(1,Math.abs(S.v)/4);}pv=S.v;
 const f=cardFrac();let dT=baseD,ct;const Wt=2*curD*hfovT();
 if(S.cam==='frame'){const need=NEED/((1-f)*2*hfovT());dT=clamp(need,baseD,baseD*1.7);ct=STOPS[S.fi].c+f*Wt/2;}else ct=S.x+(H()<520?0:.2)*Wt;
 curD+=(dT-curD)*(1-Math.exp(-dt*3));
-S.camX+=(ct-S.camX)*(1-Math.exp(-dt*(S.mode==='travel'?4.5:3.2)));placeCam(S.camX,curD);
+S.camX+=(ct-S.camX)*(1-Math.exp(-dt*(S.mode==='travel'?4.5:3.2)));placeCam(S.camX,curD);if(S.mode==='pre')PRE.pan();
 const sx=Math.round(S.camX);sun.position.set(sx-16,42,40);sun.target.position.set(sx,3,-4);sun.target.updateMatrixWorld();
 clouds.position.x=Math.sin(t*.05)*4;
 for(const a of anims)a(t);
 T.fall.offset.y=(T.fall.offset.y+dt*1.3)%1;T.water.offset.x=(T.water.offset.x+dt*.04)%1;
 ui();}
+
+// ===================== [PRELOADER] black screen → dig a hole → fall through → existing cart landing =====================
+// Uses the real rider (same model, materials, proportions) inside the real scene with the real hero camera.
+// The black layer is a screen-space mask over the world; the camera follows the rider down through the hole and
+// reaches the exact hero framing at the moment he reaches the cart, where the existing intro landing takes over.
+const PRE=(()=>{
+const P={active:false};const de=document.documentElement;
+if(!de.classList.contains('pl-on')||window.__plFailed)return P;
+window.__plLive=true;if(window.__plWatch)clearTimeout(window.__plWatch);
+P.active=true;S.mode='pre';
+const hideCover=()=>{const o=document.getElementById('vd-pre');if(o&&o.parentNode)o.parentNode.removeChild(o);};
+const reveal=()=>{hideCover();de.classList.remove('pl-on');de.classList.add('pl-in');setTimeout(()=>de.classList.remove('pl-in'),900);};
+// readiness = sign textures built (fonts loaded or timed out) + two frames rendered with them uploaded
+let worldReady=false,readyFrames=0;const mark=()=>{worldReady=true;};signsReady.then(mark,mark);
+const isReady=()=>worldReady&&readyFrames>=2;
+// (plays regardless of the OS reduced-motion setting, by request)
+
+const V3=THREE.Vector3,_a=new V3(),_b=new V3(),_c=new V3(),ray=new THREE.Raycaster(),pz=new THREE.Plane(new V3(0,0,1),0);
+const L={};const G=22*1.4,HOP=1.5*1.4,TP=.56; // gravity = the existing intro's (22 local units/s² × cart scale)
+let Pn=0;   // current camera pan (world units above the hero framing)
+// start already settled on the final hero framing so the rider's screen X never drifts
+curD=baseD;S.camX=(H()<520?0:.2)*2*curD*hfovT();
+cart.position.set(0,ty(0)+.33,0);cart.rotation.z=Math.atan(slope(0));
+rider.g.position.set(0,0,0);cart.updateMatrixWorld(true);
+const fb=new THREE.Box3().setFromObject(rider.g);rider.g.getWorldPosition(_a);const feetOff=_a.y-fb.min.y;
+rider.g.rotation.order='YXZ';
+// minimal pickaxe in the rider's hand (temporary)
+const pick=new THREE.Group();pick.position.set(0,-.58,0);rider.armR.add(pick);
+bx(pick,'#4e2a10',.085,.2,.085,0,-.04,0);bx(pick,'#8a5a2a',.07,.74,.07,0,-.5,0);
+const pHead=new THREE.Group();pHead.position.set(0,-.88,0);pick.add(pHead);
+bx(pHead,'#b4bac0',.11,.11,.56,0,0,0);bx(pHead,'#80868d',.1,.1,.12,0,.05,.32);bx(pHead,'#80868d',.1,.1,.12,0,.05,-.32);
+const tip=new THREE.Object3D();tip.position.set(0,.04,.38);pHead.add(tip);
+rider.g.traverse(o=>o.layers.enable(1));
+// stencil helpers
+const stn=(f,zp)=>({depthTest:false,depthWrite:false,stencilWrite:true,stencilRef:1,stencilFunc:f,stencilFail:THREE.KeepStencilOp,stencilZFail:THREE.KeepStencilOp,stencilZPass:zp||THREE.KeepStencilOp});
+const riderSt=new THREE.MeshBasicMaterial(Object.assign({colorWrite:false},stn(THREE.AlwaysStencilFunc,THREE.ReplaceStencilOp),{depthTest:true}));
+const winMat=new THREE.MeshBasicMaterial(Object.assign({colorWrite:false},stn(THREE.AlwaysStencilFunc,THREE.ReplaceStencilOp)));
+const pitMats=['#5a3a1e','#4a2f17','#3f2813','#6b4423','#533619'].map(c=>new THREE.MeshBasicMaterial(Object.assign({color:c},stn(THREE.NotEqualStencilFunc))));
+const sq=new THREE.PlaneGeometry(1,1);
+// the hole: a 6×6 grid of block cells under the rider's feet
+const ov=new THREE.Scene(),cells=[];
+for(let r=0;r<6;r++)for(let c=0;c<6;c++){const m=new THREE.Mesh(sq,pitMats[(Math.random()*pitMats.length)|0]);m.userData.r=r;m.userData.c=c;m.userData.pit=m.material;m.visible=false;ov.add(m);cells.push(m);}
+const SH=[[],[[0,2,3]],[[0,1,4],[1,2,3]],[[0,1,4],[1,1,4],[2,1,4],[3,2,3]],[[0,1,4],[1,1,4],[2,1,4],[3,1,4],[4,2,3]],[[0,0,5],[1,0,5],[2,0,5],[3,0,5],[4,0,5],[5,0,5]]];
+P.stage=0;function setStage(n){P.stage=n;const on=new Set();for(const[r,a,b]of SH[n])for(let c=a;c<=b;c++)on.add(r*6+c);cells.forEach((m,i)=>{m.visible=on.has(i);m.material=n===5?winMat:m.userData.pit;});}
+// black layer (screen space)
+const oCam=new THREE.OrthographicCamera(-1,1,1,-1,0,2),mS=new THREE.Scene();
+const mask=new THREE.Mesh(sq,new THREE.MeshBasicMaterial(Object.assign({color:'#000000'},stn(THREE.NotEqualStencilFunc))));mask.position.z=-1;mS.add(mask);
+// dirt particles
+const parts=[],pMats=['#8a5a2a','#6b4423','#a8743e','#4e3219','#9aa0a8'].map(c=>new THREE.MeshBasicMaterial({color:c}));
+function burst(x,y,n,grey){const k=L.cell/.35;for(let i=0;i<n&&parts.length<28;i++){const m=new THREE.Mesh(UB,pMats[grey?4:(Math.random()*4|0)]);m.layers.enable(1);const sc=L.cell*(.32+Math.random()*.22);m.scale.setScalar(sc);m.position.set(x+(Math.random()-.5)*L.cell*1.2,y+L.cell*.15,(Math.random()-.5)*.3);scene.add(m);
+  const dir=Math.random()<.5?-1:1;parts.push({m,sc,vx:dir*(.9+Math.random()*1.8)*k,vy:(2.6+Math.random()*2.2)*k,g:15*k,life:0,max:.55+Math.random()*.3,rx:(Math.random()-.5)*12,rz:(Math.random()-.5)*12});}}
+function stepParts(dt){for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.life+=dt;if(p.life>=p.max){scene.remove(p.m);parts.splice(i,1);continue;}
+  p.vy-=p.g*dt;p.m.position.x+=p.vx*dt;p.m.position.y+=p.vy*dt;p.m.rotation.x+=p.rx*dt;p.m.rotation.z+=p.rz*dt;const f=1-p.life/p.max;p.m.scale.setScalar(p.sc*Math.min(1,f*2.2));}}
+// layout from the actual hero camera + actual cart position (recomputed every frame, so resizes/rotations are handled)
+function layout(){placeCam(S.camX,curD);cam.updateMatrixWorld();cart.updateMatrixWorld(true);
+  wrap.getWorldPosition(_a);L.wx=_a.x;L.wy=_a.y;_b.copy(_a).project(cam);L.nx=_b.x;   // rider-in-cart screen X
+  ray.setFromCamera({x:L.nx,y:1},cam);ray.ray.intersectPlane(pz,_c);L.yt=_c.y;
+  ray.setFromCamera({x:L.nx,y:-1},cam);ray.ray.intersectPlane(pz,_c);L.yb=_c.y;
+  L.Hv=L.yt-L.yb;L.depth=.15*L.Hv;L.cell=L.depth/6;L.feet=L.yt+L.depth;L.y0=L.feet+feetOff;}
+// world X that projects to the hero rider's screen X at world height y (in hero-camera space)
+function xLock(y){const a=_b.set(0,y,0).project(cam).x,b=_c.set(1,y,0).project(cam).x;return Math.abs(b-a)<1e-9?L.wx:(L.nx-a)/(b-a);}
+function place(yw){const x=xLock(yw-Pn);rider.g.position.copy(wrap.worldToLocal(_a.set(x,yw,0)));}
+const lerp=(a,b,t)=>a+(b-a)*t;
+P.st='dig';P.t=0;P.k=-1;let aNow=-.75,y0=0,ft=0,rt=0,aR=0;
+function strike(){tip.getWorldPosition(_a);const x=clamp(_a.x,L.xc-2*L.cell,L.xc+2*L.cell);
+  if(P.stage<4){setStage(P.stage+1);burst(x,L.feet,5);}
+  else if(P.stage===4&&(isReady()||P.t>12)){setStage(5);burst(x,L.feet,4);burst(x,L.feet,4,true);pick.visible=false;P.st='react';rt=0;aR=aNow;}
+  else burst(x,L.feet,3);}   // world not ready yet: keep digging naturally, no growth
+function finish(landed){
+  for(const p of parts)scene.remove(p.m);parts.length=0;
+  if(pick.parent)pick.parent.remove(pick);
+  rider.g.traverse(o=>o.layers.disable(1));rider.g.rotation.order='XYZ';rider.g.rotation.set(0,.35,0);rider.head.rotation.x=0;
+  rider.armL.rotation.x=rider.armR.rotation.x=-2.8;
+  [riderSt,winMat,mask.material,...pitMats,...pMats].forEach(m=>m.dispose());sq.dispose();
+  scene.overrideMaterial=null;cam.layers.set(0);renderer.autoClear=true;Pn=0;P.active=false;
+  if(landed){rider.g.position.set(0,0,0);S.mode='intro';S.it=1.0;}   // hand over to the existing landing (squash + arms)
+  else{rider.g.position.set(0,11,0);S.mode='intro';S.it=0;}          // fallback: original intro from the top
+  reveal();}
+function abort(e){if(!P.active)return;try{console.warn('Preloader skipped:',e);finish(false);}catch(_){P.active=false;S.mode='intro';S.it=0;de.classList.remove('pl-on');hideCover();}}
+P.step=dt=>{try{
+  if(window.__plFailed){abort('fail-safe');return;}
+  layout();
+  L.xc=xLock(L.feet-L.Hv);
+  for(const m of cells){m.position.set(L.xc+(m.userData.c-2.5)*L.cell,L.feet-(m.userData.r+.5)*L.cell,0);m.scale.set(L.cell*1.003,L.cell*1.003,1);}
+  stepParts(dt);
+  if(P.st==='dig'){
+    P.t+=dt;const cyc=Math.floor(P.t/TP),u=(P.t-cyc*TP)/TP;let a;
+    if(u<.55){const v=u/.55;a=-.75-2.15*(1-(1-v)*(1-v));}          // wind up overhead
+    else if(u<.7){const v=(u-.55)/.15;a=-2.9+2.15*v*v;}             // chop down
+    else{const v=(u-.7)/.3;a=-.75-.2*Math.sin(Math.PI*v);}            // small recoil
+    aNow=a;rider.armR.rotation.x=rider.armL.rotation.x=a;rider.g.rotation.x=-.06+(a+2.9)/2.15*.24;rider.head.rotation.x=.32;
+    Pn=L.Hv;place(L.y0);
+    if(u>=.7&&P.k<cyc){P.k=cyc;strike();}
+  }else if(P.st==='react'){                                           // hole opens: look down, arms fly up
+    rt+=dt;const e=Math.min(1,rt/.18),ee=1-(1-e)*(1-e);
+    aNow=lerp(aR,-2.8,ee);rider.armR.rotation.x=rider.armL.rotation.x=aNow;
+    rider.head.rotation.x=lerp(.32,.55,ee);rider.g.rotation.x=lerp(rider.g.rotation.x,-.1,Math.min(1,dt*10));
+    Pn=L.Hv;place(L.y0);if(rt>=.42){P.st='fall';ft=0;y0=L.y0;}
+  }else if(P.st==='fall'){                                            // fall through; camera follows; black layer lifts away
+    ft+=dt;const yw=y0+HOP*ft-.5*G*ft*ft;
+    if(yw<=L.wy){finish(true);return;}
+    const q=clamp((y0-yw)/(y0-L.wy),0,1),s=q*q*(3-2*q),ys0=y0-L.Hv,ys=ys0+(L.wy-ys0)*s;
+    Pn=clamp(yw-ys,0,L.Hv);
+    rider.armR.rotation.x=rider.armL.rotation.x=-2.8;rider.head.rotation.x=.55*(1-q);rider.g.rotation.x=-.1*(1-q);
+    place(yw);
+  }
+}catch(e){abort(e);}};
+P.pan=()=>{if(!P.active)return;cam.position.y+=Pn;cam.lookAt(S.camX,TY+Pn,-1);cam.updateMatrixWorld();};
+P.render=()=>{try{
+  renderer.autoClear=true;renderer.render(scene,cam);                 // 1. world, normal lighting/shadows/depth
+  renderer.autoClear=false;
+  const au=renderer.shadowMap.autoUpdate;renderer.shadowMap.autoUpdate=false;
+  scene.overrideMaterial=riderSt;cam.layers.set(1);renderer.render(scene,cam);   // 2. mark visible rider/pickaxe/dirt pixels
+  cam.layers.set(0);scene.overrideMaterial=null;renderer.shadowMap.autoUpdate=au;
+  if(P.stage===5)renderer.render(ov,cam);                             // 3. open hole = window into the world
+  let ny=_a.set(L.xc,L.yt,0).project(cam).y;if(Pn>=L.Hv-1e-4)ny=-1.05;ny=clamp(ny,-1.05,1);
+  if(ny<1){mask.scale.set(2.1,1-ny,1);mask.position.set(0,(1+ny)/2,-1);renderer.render(mS,oCam);}   // 4. black layer
+  if(P.stage>0&&P.stage<5)renderer.render(ov,cam);                    // 5. dug pit, behind the rider
+  renderer.autoClear=true;
+  if(worldReady)readyFrames++;
+  if(!P.shown){P.shown=true;requestAnimationFrame(hideCover);}        // first real frame drawn → drop the DOM cover
+}catch(e){abort(e);renderer.autoClear=true;renderer.render(scene,cam);}};
+return P;})();
 let last=performance.now(),raf=0;
-function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;step(dt);renderer.render(scene,cam);raf=requestAnimationFrame(frame);}
+function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;step(dt);if(S.mode==='pre'&&PRE.active)PRE.render();else renderer.render(scene,cam);raf=requestAnimationFrame(frame);}
 const ro=new ResizeObserver(()=>resize());ro.observe(root);
 new ResizeObserver(()=>root.classList.toggle('short',root.clientHeight<520)).observe(root);
 raf=requestAnimationFrame(frame);
 window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);ro.disconnect();window.removeEventListener('keydown',kd);window.removeEventListener('keyup',ku);window.removeEventListener('blur',bl);renderer.dispose();});
+}catch(err){if(window.__plFail&&!window.__plLive)window.__plFail();throw err;}
 })();
 </script>
 </div></body></html>

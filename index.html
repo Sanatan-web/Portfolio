@@ -1,5 +1,5 @@
 <!doctype html>
-<html data-saved=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'"><noscript><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css"></noscript><style>
+<html data-saved=""><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css" media="print" onload="this.media='all'"><noscript><link id="icon-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.42.0/dist/tabler-icons.min.css"></noscript><style>
 :root{--font-anthropic-sans:"anthropic-sans", ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;--font-anthropic-serif:"anthropic-serif", ui-serif, Georgia, "Times New Roman", serif}
 :root {
   --radius: calc(0.5rem * var(--cds-rem-scale, 1));
@@ -2728,25 +2728,21 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 #hero{padding:8px 10px 18px!important}
 #card{padding:clamp(6px,.8vw,14px)!important}
 #nav{padding:6px 8px 6px!important;gap:12px!important}
-#vd .pri,#vd .sec,#nav button,#cClose{font-family:"Press Start 2P",monospace!important;font-size:11px!important;font-weight:400!important;line-height:1.2;color:#fff!important;text-shadow:2px 2px 0 #000;border:0!important;border-radius:0!important;background-color:#1c1c1c!important;background-image:var(--oak)!important;background-size:48px 48px!important;background-repeat:repeat!important;image-rendering:pixelated;box-shadow:inset 3px 3px 0 rgba(255,255,255,.16),inset -3px -3px 0 rgba(0,0,0,.55),0 0 0 3px #000,0 6px 0 0 #000,0 6px 0 3px #000!important;margin-bottom:6px;transform:translateY(0);transition:transform .06s,filter .06s}
+#vd .pri,#vd .sec,#nav button,#mnav button,#burger,#ml,#mr,#cClose{font-family:"Press Start 2P",monospace!important;font-size:11px!important;font-weight:400!important;line-height:1.2;color:#fff!important;text-shadow:2px 2px 0 #000;border:0!important;border-radius:0!important;background-color:#1c1c1c!important;background-image:var(--oak)!important;background-size:48px 48px!important;background-repeat:repeat!important;image-rendering:pixelated;box-shadow:inset 3px 3px 0 rgba(255,255,255,.16),inset -3px -3px 0 rgba(0,0,0,.55),0 0 0 3px #000,0 6px 0 0 #000,0 6px 0 3px #000!important;margin-bottom:6px;transform:translateY(0);transition:transform .06s,filter .06s}
 #vd .pri{background-image:var(--strip),var(--dirt)!important;background-size:48px 15px,48px 48px!important;background-repeat:repeat-x,repeat!important;background-position:0 0,0 0!important}
-#vd .sec,#cClose{background-image:var(--stone)!important}
-#nav button.on{background-image:var(--strip),var(--dirt)!important;background-size:48px 15px,48px 48px!important;background-repeat:repeat-x,repeat!important;background-position:0 0,0 0!important;color:#fff!important;box-shadow:inset 3px 3px 0 rgba(255,255,255,.16),inset -3px -3px 0 rgba(0,0,0,.55),0 0 0 3px #000,0 6px 0 0 #000,0 6px 0 3px #000!important}
-#vd .pri:hover,#vd .sec:hover,#nav button:hover,#cClose:hover{background-color:#1c1c1c!important;filter:brightness(1.6);transform:translateY(-2px)}
+#vd .sec,#cClose,#ml,#mr{background-image:var(--stone)!important}
+#nav button.on,#mnav button.on{background-image:var(--strip),var(--dirt)!important;background-size:48px 15px,48px 48px!important;background-repeat:repeat-x,repeat!important;background-position:0 0,0 0!important;color:#fff!important;box-shadow:inset 3px 3px 0 rgba(255,255,255,.16),inset -3px -3px 0 rgba(0,0,0,.55),0 0 0 3px #000,0 6px 0 0 #000,0 6px 0 3px #000!important}
+#vd .pri:hover,#vd .sec:hover,#nav button:hover,#mnav button:hover,#burger:hover,#cClose:hover{background-color:#1c1c1c!important;filter:brightness(1.6);transform:translateY(-2px)}
 #vd .pri:hover{background-image:var(--strip),var(--dirt)!important}
 #vd .sec:hover,#cClose:hover{background-image:var(--stone)!important}
-#nav button:hover{background-image:var(--oak)!important}
-#nav button.on:hover{background-image:var(--strip),var(--dirt)!important}
-#vd .pri:active,#vd .sec:active,#nav button:active,#cClose:active{filter:brightness(.8);transform:translateY(4px);box-shadow:inset 3px 3px 0 rgba(255,255,255,.1),inset -3px -3px 0 rgba(0,0,0,.6),0 0 0 3px #000,0 2px 0 0 #000,0 2px 0 3px #000!important}
+#nav button:hover,#mnav button:hover,#burger:hover{background-image:var(--oak)!important}
+#nav button.on:hover,#mnav button.on:hover{background-image:var(--strip),var(--dirt)!important}
+#vd .pri:active,#vd .sec:active,#nav button:active,#mnav button:active,#burger:active,#cClose:active{filter:brightness(.8);transform:translateY(4px);box-shadow:inset 3px 3px 0 rgba(255,255,255,.1),inset -3px -3px 0 rgba(0,0,0,.6),0 0 0 3px #000,0 2px 0 0 #000,0 2px 0 3px #000!important}
 #cClose{margin-bottom:0}
 #cImg{border-radius:0!important;box-sizing:border-box;border:5px solid #5b3a1a;box-shadow:inset 4px 4px 0 rgba(0,0,0,.45),0 0 0 3px #1c1208}
 #hint{background-color:#262626!important;background-image:var(--stone)!important;background-size:48px 48px!important;border-radius:0!important;image-rendering:pixelated;box-shadow:inset 3px 3px 0 rgba(255,255,255,.12),inset -3px -3px 0 rgba(0,0,0,.5),0 0 0 3px #000!important}
 #hint button{border-radius:0!important}
-/* Phone held upright: rotate the whole scene to landscape */
-@media (orientation:portrait) and (max-width:820px) and (pointer:coarse){
-  html,body{margin:0;overflow:hidden;height:100%}
-  #vd{position:fixed;top:0;left:0;width:100vh;height:100vw;width:100dvh;height:100dvw;border-radius:0;transform-origin:0 0;transform:translateX(100vw) rotate(90deg);transform:translateX(100dvw) rotate(90deg)}
-}
+/* [MOBILE UPDATE] Forced portrait→landscape rotation removed; phones now get the native mobile layout below. */
 /* Short screens (phone in landscape, or the rotated view): compact layout */
 #vd.short #nav{top:8px;padding:3px}
 #vd.short #nav button{padding:6px 10px;font-size:12px}
@@ -2761,8 +2757,74 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 #vd.short #cDesc{font-size:12px;line-height:1.5}
 #vd.short #hint{bottom:8px;padding:6px 10px}
 #vd.short #reopen{bottom:8px}
+
+/* ===================== [MOBILE UPDATE] mobile controls, menu & layout ===================== */
+/* New elements are hidden on desktop; the media query below turns them on. */
+#mctl,#burger,#mnav,#mback{display:none}
+#ml,#mr,#burger{position:relative;align-items:center;justify-content:center;padding:0!important;touch-action:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+#ml,#mr{display:flex;width:64px;height:64px;flex:none}
+#burger{width:48px;height:48px}
+#ml svg,#mr svg,#burger svg,#mhint svg{display:block;shape-rendering:crispEdges;filter:drop-shadow(2px 2px 0 #000);pointer-events:none}
+#burger .i-close{display:none}
+#vd.menu-open #burger .i-open{display:none}
+#vd.menu-open #burger .i-close{display:block}
+/* pressed state while a finger is holding the button (more reliable than :active with pointer capture) */
+#vd #ml.down,#vd #mr.down{filter:brightness(.8);transform:translateY(4px);box-shadow:inset 3px 3px 0 rgba(255,255,255,.1),inset -3px -3px 0 rgba(0,0,0,.6),0 0 0 3px #000,0 2px 0 0 #000,0 2px 0 3px #000!important}
+/* back (left) arrow is hidden until the cart has left the start */
+#vd #ml{transition:transform .06s,filter .06s,opacity .2s,visibility .2s}
+#vd #ml.gone{visibility:hidden;opacity:0!important;pointer-events:none}
+#mhint{flex:0 1 auto;min-width:0;margin:0 10px 6px;padding:9px 10px;box-sizing:border-box;text-align:center;font-size:9px;line-height:1.9;letter-spacing:1px;color:#fff;text-shadow:2px 2px 0 #000;background-color:#262626;background-image:var(--stone);background-size:48px 48px;image-rendering:pixelated;box-shadow:inset 3px 3px 0 rgba(255,255,255,.12),inset -3px -3px 0 rgba(0,0,0,.5),0 0 0 3px #000;pointer-events:none}
+#mhint .g{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;vertical-align:middle;margin:0 3px}
+#mnav button{display:flex;align-items:center;justify-content:flex-start;gap:12px;width:100%;min-height:48px;padding:12px 14px;box-sizing:border-box;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#mnav button i{font-size:18px}
+
+@media (max-width:768px), (hover:none) and (pointer:coarse) and (max-height:500px){
+  html,body{margin:0!important;padding:0!important;height:100%;overflow:hidden;overscroll-behavior:none}
+  #vd.world{
+    --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);
+    --mt:calc(12px + var(--sat));      /* top edge for hamburger + hero */
+    --ctop:calc(var(--mt) + 64px);     /* space taken by the hamburger row */
+    --mb:calc(96px + var(--sab));      /* space taken by the bottom controls */
+    height:100vh;height:100dvh;border-radius:0}
+  /* desktop nav + keyboard hint off, mobile controls on */
+  #vd.world #nav,#vd.world #hint{display:none!important}
+  #vd.world #mctl{display:flex;position:absolute;left:calc(12px + var(--sal));right:calc(12px + var(--sar));bottom:calc(14px + var(--sab));z-index:5;align-items:center;justify-content:space-between;pointer-events:none}
+  #vd.world #ml,#vd.world #mr{pointer-events:auto}
+  #vd.world #ml.gone{pointer-events:none}
+  /* hamburger + menu (always above everything) */
+  #vd.world #burger{display:flex;position:absolute;top:var(--mt);right:calc(12px + var(--sar));z-index:42}
+  #vd.world #mback{display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:40;background:rgba(12,16,28,.45);touch-action:none}
+  #vd.world #mnav{display:flex;flex-direction:column;gap:12px;position:absolute;z-index:41;top:var(--ctop);right:calc(12px + var(--sar));width:min(260px,calc(100% - 24px - var(--sal) - var(--sar)));max-height:calc(100% - var(--ctop) - 12px - var(--sab));overflow:auto;box-sizing:border-box;padding:10px 10px 4px;border:12px solid transparent;border-image:var(--frame) 4 round;background:var(--parch);background-size:96px 96px;box-shadow:8px 8px 0 rgba(0,0,0,.28);image-rendering:pixelated}
+  /* hero card: compact, top-left, clear of the hamburger and the bottom controls */
+  #vd.world #hero{top:var(--mt);left:calc(12px + var(--sal));width:min(250px,calc(100% - 84px - var(--sal) - var(--sar)));max-height:calc(100% - var(--mt) - var(--mb));overflow:auto;padding:6px 8px 12px!important}
+  #vd.world #hero .eb{font-size:12px!important}
+  #vd.world #hero hr{margin:10px 0!important}
+  #vd.world #hero h2{font-size:14px!important;line-height:1.35}
+  #vd.world #hero p{font-size:12px;line-height:1.5;margin:0 0 10px}
+  /* project / connect card: centred in the space between the top bar and the controls */
+  #vd.world #card{left:50%;right:auto;bottom:auto;top:calc((var(--ctop) + 100% - var(--mb)) / 2);width:min(400px,calc(100% - 28px - var(--sal) - var(--sar)));min-width:0;max-width:none;max-height:calc(100% - var(--ctop) - var(--mb));padding:8px!important;gap:10px;z-index:6;-webkit-overflow-scrolling:touch;
+    transform:translate(-50%,calc(-50% + 24px));opacity:0;visibility:hidden;pointer-events:none;
+    transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s,visibility 0s linear .45s}
+  #vd.world #card.open{transform:translate(-50%,-50%);opacity:1;visibility:visible;pointer-events:auto;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .3s,visibility 0s}
+  #vd.world #cImg{aspect-ratio:16/9}
+  #vd.world #cTitle{font-size:15px}
+  #vd.world #cDesc{font-size:13px;line-height:1.55}
+  /* "Open <project>" button sits just above the controls, centred */
+  #vd.world #reopen{left:0;right:0;bottom:var(--mb);margin:0 auto 6px;width:max-content;max-width:calc(100% - 24px)}
+}
+/* phone in landscape: the hamburger sits in a corner, so the card may use the full height */
+@media (max-width:768px) and (max-height:500px) and (orientation:landscape), (hover:none) and (pointer:coarse) and (max-height:500px) and (orientation:landscape){
+  #vd.world{--ctop:var(--mt);--mb:calc(84px + var(--sab))}
+  #vd.world #ml,#vd.world #mr{width:56px;height:56px}
+  #vd.world #mctl{bottom:calc(10px + var(--sab))}
+  #vd.world #mnav{top:calc(var(--mt) + 64px);max-height:calc(100% - var(--mt) - 76px - var(--sab))}
+  #vd.world #hero{width:min(240px,calc(100% - 84px - var(--sal) - var(--sar)))}
+  #vd.world #hero h2{font-size:13px!important}
+  #vd.world #hero p{font-size:11px}
+  #vd.world #card{width:min(420px,calc(100% - 160px - var(--sal) - var(--sar)))}
+}
 </style>
-<div id="vd" tabindex="0" aria-label="Voxel portfolio world. Use the left and right arrow keys to move the minecart.">
+<div id="vd" class="world" tabindex="0" aria-label="Voxel portfolio world. Use the left and right arrow keys to move the minecart.">
 <nav id="nav" aria-label="Sections"><button data-n="home" class="on"><i class="ti ti-home" aria-hidden="true"></i>Home</button><button data-n="projects"><i class="ti ti-layout-grid" aria-hidden="true"></i>Projects</button><button data-n="connect"><i class="ti ti-message-circle" aria-hidden="true"></i>Connect</button><button data-n="resume"><i class="ti ti-file-text" aria-hidden="true"></i>Resume</button></nav>
 <section id="hero">
 <div class="px eb" style="font-size: 24px;">NISHANT J. DIXIT</div>
@@ -2785,6 +2847,15 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px"><button class="pri" id="cPri">View project</button><button class="sec" id="cNext" hidden="">Back to start</button></div>
 </aside>
 <button id="reopen" class="sec"></button>
+<!-- [MOBILE UPDATE] hamburger, mobile menu and touch movement controls -->
+<button id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><svg class="i-open" width="30" height="24" viewBox="0 0 10 8" aria-hidden="true"><path fill="#fff" d="M0 0h10v2H0zM0 3h10v2H0zM0 6h10v2H0z"/></svg><svg class="i-close" width="24" height="24" viewBox="0 0 8 8" aria-hidden="true"><path fill="#fff" d="M0 0h2v2h-2zM6 0h2v2h-2zM1 1h2v2h-2zM5 1h2v2h-2zM2 2h2v2h-2zM4 2h2v2h-2zM3 3h2v2h-2zM3 3h2v2h-2zM4 4h2v2h-2zM2 4h2v2h-2zM5 5h2v2h-2zM1 5h2v2h-2zM6 6h2v2h-2zM0 6h2v2h-2z"/></svg></button>
+<div id="mback" hidden=""></div>
+<nav id="mnav" aria-label="Sections menu" hidden=""><button data-n="home" class="on"><i class="ti ti-home" aria-hidden="true"></i>Home</button><button data-n="projects"><i class="ti ti-layout-grid" aria-hidden="true"></i>Projects</button><button data-n="connect"><i class="ti ti-message-circle" aria-hidden="true"></i>Connect</button><button data-n="resume"><i class="ti ti-file-text" aria-hidden="true"></i>Resume</button></nav>
+<div id="mctl">
+<button id="ml" class="gone" type="button" aria-label="Move left" aria-hidden="true" tabindex="-1"><svg width="30" height="27" viewBox="0 0 10 9" aria-hidden="true"><g fill="#fff" transform="translate(10 0) scale(-1 1)"><path d="M0 3h5v3H0zM5 0h1v9H5zM6 1h1v7H6zM7 2h1v5H7zM8 3h1v3H8zM9 4h1v1H9z"/></g></svg></button>
+<div id="mhint" class="px"><span class="sr-only">Use left and right to move</span><span class="g" aria-hidden="true">USE <svg width="20" height="18" viewBox="0 0 10 9" aria-hidden="true"><g fill="#fff" transform="translate(10 0) scale(-1 1)"><path d="M0 3h5v3H0zM5 0h1v9H5zM6 1h1v7H6zM7 2h1v5H7zM8 3h1v3H8zM9 4h1v1H9z"/></g></svg><svg width="20" height="18" viewBox="0 0 10 9" aria-hidden="true"><g fill="#fff"><path d="M0 3h5v3H0zM5 0h1v9H5zM6 1h1v7H6zM7 2h1v5H7zM8 3h1v3H8zM9 4h1v1H9z"/></g></svg></span><span class="g" aria-hidden="true">TO MOVE</span></div>
+<button id="mr" type="button" aria-label="Move right"><svg width="30" height="27" viewBox="0 0 10 9" aria-hidden="true"><g fill="#fff"><path d="M0 3h5v3H0zM5 0h1v9H5zM6 1h1v7H6zM7 2h1v5H7zM8 3h1v3H8zM9 4h1v1H9z"/></g></svg></button>
+</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -3120,9 +3191,11 @@ const S={mode:'intro',x:0,v:0,dest:0,arr:null,maxV:0,dec:0,parked:-1,card:null,c
 S.camX=(H()<520?0:.2)*2*curD*hfovT();placeCam(S.camX,curD);
 const keys={l:false,r:false};
 const card=$('card'),eye=$('cEye'),title=$('cTitle'),img=$('cImg'),desc=$('cDesc'),more=$('cMore'),form=$('cForm'),msg=$('cMsg'),err=$('cErr'),okm=$('cOk'),pri=$('cPri'),nxt=$('cNext'),reo=$('reopen'),hero=$('hero');
-const navBtns=[...document.querySelectorAll('#nav button')];
+const navBtns=[...document.querySelectorAll('#nav button,#mnav button')];
+// [MOBILE UPDATE] same breakpoint as the CSS media query
+const MQ=window.matchMedia('(max-width:768px), (hover:none) and (pointer:coarse) and (max-height:500px)');const isM=()=>MQ.matches;
 const secOf=x=>x<24?'home':x<160?'projects':'connect';
-const cardFrac=()=>Math.min(.5,(card.offsetWidth+28)/W());
+const cardFrac=()=>isM()?0:Math.min(.5,(card.offsetWidth+28)/W());
 const nameOf=i=>STOPS[i].k==='p'?P[STOPS[i].n-1].t:"LET'S CONNECT";
 function openCard(i){S.card=i;const st=STOPS[i];more.hidden=true;form.hidden=true;err.textContent='';okm.hidden=true;
 if(st.k==='p'){const p=P[st.n-1];eye.textContent='SELECTED PROJECT';title.textContent=p.t;desc.textContent=p.d;img.hidden=false;img.style.background=p.tint;img.style.color=p.ink;img.replaceChildren();const preview=document.createElement('img');preview.src=p.img;preview.alt=p.t+' project preview';preview.style.cssText='display:block;width:100%;height:100%;object-fit:cover;border-radius:inherit;';preview.onerror=()=>{img.innerHTML='<i class="ti ti-photo" style="font-size:24px" aria-hidden="true"></i><span>Image not found — check the img/ filename</span>';};img.appendChild(preview);pri.textContent='View project';nxt.hidden=true;}
@@ -3142,15 +3215,36 @@ $('cSend').addEventListener('click',()=>{if(!msg.value.trim()){err.textContent='
 reo.addEventListener('click',()=>{if(S.parked>=0&&S.mode==='free')arriveAt(S.parked);});
 ['pointerdown','click','wheel'].forEach(ev=>card.addEventListener(ev,e=>e.stopPropagation(),{passive:true}));
 root.addEventListener('pointerdown',e=>{if(e.target===renderer.domElement)root.focus({preventScroll:true});});
-function hold(el,k){el.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true;if(el.setPointerCapture)el.setPointerCapture(e.pointerId);});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,()=>{keys[k]=false;}));}
+// [MOBILE UPDATE] hold() extended: optional instant stop on release (touch buttons), pressed-state class, menu guard
+let menuOpen=false;
+function hold(el,k,snap){let on=false;
+const up=()=>{el.classList.remove('down');if(!on)return;on=false;keys[k]=false;if(snap&&S.mode==='free')S.v=0;};
+el.addEventListener('pointerdown',e=>{e.preventDefault();if(menuOpen)return;on=true;keys[k]=true;el.classList.add('down');if(el.setPointerCapture)el.setPointerCapture(e.pointerId);});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,up));
+if(snap)el.addEventListener('contextmenu',e=>e.preventDefault());
+return up;}
 hold($('kl'),'l');hold($('kr'),'r');
+const ml=$('ml'),mr=$('mr');const relL=hold(ml,'l',true),relR=hold(mr,'r',true);
+const releaseAll=()=>{relL();relR();keys.l=keys.r=false;};
+// [MOBILE UPDATE] hamburger menu
+const burger=$('burger'),mnav=$('mnav'),mback=$('mback');
+function setMenu(o,refocus){if(o===menuOpen)return;menuOpen=o;releaseAll();root.classList.toggle('menu-open',o);mnav.hidden=!o;mback.hidden=!o;burger.setAttribute('aria-expanded',String(o));burger.setAttribute('aria-label',o?'Close menu':'Open menu');
+if(o){const f=mnav.querySelector('button.on')||mnav.querySelector('button');if(f)f.focus({preventScroll:true});}else if(refocus)burger.focus({preventScroll:true});}
+burger.addEventListener('click',()=>setMenu(!menuOpen,true));
+mback.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();setMenu(false,false);});
+[...mnav.querySelectorAll('button')].forEach(b=>b.addEventListener('click',()=>{setMenu(false,false);root.focus({preventScroll:true});}));
+[burger,mnav,mback].forEach(el=>el.addEventListener('pointerdown',e=>e.stopPropagation()));
+const onMQ=()=>{if(!isM())setMenu(false,false);releaseAll();};
+if(MQ.addEventListener)MQ.addEventListener('change',onMQ);else if(MQ.addListener)MQ.addListener(onMQ);
 const editable=e=>{const t=e.target;return t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable);};
-const kd=e=>{if(editable(e))return;if(e.key==='ArrowRight'){keys.r=true;e.preventDefault();}else if(e.key==='ArrowLeft'){keys.l=true;e.preventDefault();}else if(e.key==='ArrowUp'||e.key==='ArrowDown')e.preventDefault();};
-const ku=e=>{if(e.key==='ArrowRight')keys.r=false;else if(e.key==='ArrowLeft')keys.l=false;};const bl=()=>{keys.l=keys.r=false;};
+const kd=e=>{if(menuOpen){if(e.key==='Escape'){e.preventDefault();setMenu(false,true);}return;}if(editable(e))return;if(e.key==='ArrowRight'){keys.r=true;e.preventDefault();}else if(e.key==='ArrowLeft'){keys.l=true;e.preventDefault();}else if(e.key==='ArrowUp'||e.key==='ArrowDown')e.preventDefault();};
+const ku=e=>{if(e.key==='ArrowRight')keys.r=false;else if(e.key==='ArrowLeft')keys.l=false;};const bl=()=>{keys.l=keys.r=false;ml.classList.remove('down');mr.classList.remove('down');};
 window.addEventListener('keydown',kd);window.addEventListener('keyup',ku);window.addEventListener('blur',bl);
-let uiSec='',uiReo=null,uiHero=null;
+let uiSec='',uiReo=null,uiHero=null,uiAway=null;
 function ui(){const sec=secOf(S.mode==='travel'?S.dest:S.x);if(sec!==uiSec){uiSec=sec;navBtns.forEach(b=>{const on=b.dataset.n===sec;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false');});}
 const hv=S.x<5;if(hv!==uiHero){uiHero=hv;hero.classList.toggle('off',!hv);}
+// [MOBILE UPDATE] back arrow: shown once the cart is >1.5 units from the start, hidden again within 0.25 (hysteresis avoids flicker)
+const away=S.x>1.5?true:S.x<.25?false:!!uiAway;if(away!==uiAway){uiAway=away;ml.classList.toggle('gone',!away);ml.setAttribute('aria-hidden',String(!away));ml.tabIndex=away?0:-1;if(!away)relL();}
 const r=(S.parked>=0&&S.card===null&&S.mode==='free')?'Open '+nameOf(S.parked):'';if(r!==uiReo){uiReo=r;reo.textContent=r;reo.style.display=r?'inline-flex':'none';}}
 let pv=0;
 function step(dt){S.t+=dt;const t=S.t;

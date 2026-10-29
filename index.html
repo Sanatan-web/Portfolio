@@ -2757,6 +2757,11 @@ body[data-not-sent] > #vis-container ~ #not-sent {
 #vd.short #cDesc{font-size:12px;line-height:1.5}
 #vd.short #hint{bottom:8px;padding:6px 10px}
 #vd.short #reopen{bottom:8px}
+  /* Name card top aligned with the nav bar (only where they can't collide) */
+@media (min-width:1300px){
+  #vd #hero{top:14px}
+  #vd.short #hero{top:8px}
+}
 
 
 /* ===================== [PRELOADER] black screen while the world loads ===================== */

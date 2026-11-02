@@ -2849,16 +2849,17 @@ html.wo-lock,html.wo-lock body{overflow:hidden}
 @keyframes ntag{50%{margin-top:-6px}}
 @media (prefers-reduced-motion:reduce){#ntag{animation:none}}
 #ntag.atk{box-shadow:inset 0 0 0 2px #5c0a0a,inset 0 0 0 4px #d8321e,0 0 0 2px #100010!important}   /* attack prompt: red frame */
-/* [TREASURE] chest button beside the nav: pops in with a gold pulse when you come back from the Nether with the treasure */
-#tbtn{position:absolute;z-index:42;width:52px;height:52px;padding:0!important;display:grid!important;place-items:center}
-#tbtn[hidden]{display:none!important}
-#tbtn.in{animation:tbIn .6s cubic-bezier(.2,1.5,.4,1) backwards}
-#tbtn::after{content:"";position:absolute;inset:-7px;border:3px solid #ffd65a;opacity:0;pointer-events:none}
-#tbtn.in::after{animation:tbRing 1.1s .55s 3}
-#vd.short #tbtn{width:44px;height:44px}
+/* [TREASURE] chest button inside the nav bar (and the phone menu): pops in with a gold pulse when you come back from the Nether with the treasure */
+#nav .tnav{position:relative;padding:0 12px!important}
+#mnav .tnav{position:relative}
+.tnav[hidden]{display:none!important}
+.tnav svg{display:block;flex:none}
+.tnav.in{animation:tbIn .6s cubic-bezier(.2,1.5,.4,1) backwards}
+.tnav::after{content:"";position:absolute;inset:-5px;border:3px solid #ffd65a;opacity:0;pointer-events:none}
+.tnav.in::after{animation:tbRing 1.1s .55s 3}
 @keyframes tbIn{0%{transform:scale(0) rotate(-25deg)}100%{transform:scale(1) rotate(0)}}
 @keyframes tbRing{0%{opacity:.95;transform:scale(.85)}100%{opacity:0;transform:scale(1.35)}}
-@media (prefers-reduced-motion:reduce){#tbtn.in,#tbtn.in::after{animation:none}}
+@media (prefers-reduced-motion:reduce){.tnav.in,.tnav.in::after{animation:none}}
 #mctl,#burger,#mnav,#mback{display:none}
 #ml,#mr,#burger{position:relative;align-items:center;justify-content:center;padding:0!important;touch-action:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 #ml,#mr{display:flex;width:64px;height:64px;flex:none}
@@ -3873,17 +3874,12 @@ function update(dt){const T=S.t,cx=cart.position.x,mv=Math.abs(S.v)>.4;still=mv?
   rider.head.rotation.y+=(-.9-rider.head.rotation.y)*rr;               // looks back only when reversing
 }
 return{update};})();
-// ===================== [TREASURE] chest button beside the nav, unlocked by bringing the Nether treasure back; opens the OTHER WORKS panel =====================
-const TB=(()=>{const b=document.createElement('button');b.id='tbtn';b.type='button';b.className='sec';b.hidden=true;b.title='Other works';b.setAttribute('aria-label','Open other works');
-  b.innerHTML='<svg viewBox="0 0 16 16" width="30" height="30" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="14" height="1" fill="#2e1c0c"/><rect x="1" y="2" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="2" width="12" height="1" fill="#c58a42"/><rect x="14" y="2" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="3" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="3" width="1" height="1" fill="#c58a42"/><rect x="3" y="3" width="10" height="1" fill="#e0aa5e"/><rect x="13" y="3" width="1" height="1" fill="#c58a42"/><rect x="14" y="3" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="4" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="4" width="12" height="1" fill="#c58a42"/><rect x="14" y="4" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="5" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="5" width="12" height="1" fill="#9c6a2c"/><rect x="14" y="5" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="6" width="6" height="1" fill="#2e1c0c"/><rect x="7" y="6" width="2" height="1" fill="#f2c23a"/><rect x="9" y="6" width="6" height="1" fill="#2e1c0c"/><rect x="1" y="7" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="7" width="5" height="1" fill="#875624"/><rect x="7" y="7" width="2" height="1" fill="#f2c23a"/><rect x="9" y="7" width="5" height="1" fill="#875624"/><rect x="14" y="7" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="8" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="8" width="5" height="1" fill="#875624"/><rect x="7" y="8" width="2" height="1" fill="#8a6410"/><rect x="9" y="8" width="5" height="1" fill="#875624"/><rect x="14" y="8" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="9" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="9" width="12" height="1" fill="#875624"/><rect x="14" y="9" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="10" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="10" width="12" height="1" fill="#9c6a2c"/><rect x="14" y="10" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="11" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="11" width="12" height="1" fill="#875624"/><rect x="14" y="11" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="12" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="12" width="12" height="1" fill="#875624"/><rect x="14" y="12" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="13" width="1" height="1" fill="#2e1c0c"/><rect x="2" y="13" width="12" height="1" fill="#9c6a2c"/><rect x="14" y="13" width="1" height="1" fill="#2e1c0c"/><rect x="1" y="14" width="14" height="1" fill="#2e1c0c"/></svg>';root.appendChild(b);
-  b.addEventListener('pointerdown',e=>e.stopPropagation());
-  b.addEventListener('click',e=>{e.stopPropagation();const i=STOPS.findIndex(s=>s.k==='w');if(S.card===i)closeCard();else openCard(i);});
-  // sits just right of the nav bar; on phones (nav folded into the ☰ menu) just left of the menu button
-  function place(){if(b.hidden)return;const R=root.getBoundingClientRect(),n=$('nav').getBoundingClientRect(),u=$('burger').getBoundingClientRect();
-    if(n.width>0){b.style.left=(n.right-R.left+12)+'px';b.style.top=(n.top-R.top+(n.height-b.offsetHeight)/2)+'px';}
-    else if(u.width>0){b.style.left=(u.left-R.left-b.offsetWidth-10)+'px';b.style.top=(u.top-R.top+(u.height-b.offsetHeight)/2)+'px';}}
-  new ResizeObserver(place).observe(root);
-  return{show(){if(!b.hidden)return;b.hidden=false;place();b.classList.add('in');},place};})();
+// ===================== [TREASURE] chest button inside the nav bar (and the phone menu), unlocked by bringing the Nether treasure back; opens the OTHER WORKS panel =====================
+const TB=(()=>{const icon='<svg viewBox="0 0 16 16" width="18" height="18" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="14" height="14" fill="#2e1c0c"/><rect x="2" y="2" width="12" height="3" fill="#c58a42"/><rect x="3" y="3" width="10" height="1" fill="#e0aa5e"/><rect x="2" y="5" width="12" height="1" fill="#9c6a2c"/><rect x="2" y="7" width="12" height="7" fill="#875624"/><rect x="2" y="10" width="12" height="1" fill="#9c6a2c"/><rect x="2" y="13" width="12" height="1" fill="#9c6a2c"/><rect x="7" y="6" width="2" height="2" fill="#f2c23a"/><rect x="7" y="8" width="2" height="1" fill="#8a6410"/></svg>';
+  const bs=['nav','mnav'].map(id=>{const b=document.createElement('button');b.type='button';b.className='tnav';b.hidden=true;b.title='Other works';b.setAttribute('aria-label','Open other works');
+    b.innerHTML=icon+(id==='mnav'?'Other works':'');$(id).appendChild(b);
+    b.addEventListener('click',()=>{if(menuOpen)setMenu(false,false);const i=STOPS.findIndex(s=>s.k==='w');if(S.card===i)closeCard();else openCard(i);});return b;});
+  return{show(){if(!bs[0].hidden)return;bs.forEach(b=>{b.hidden=false;b.classList.add('in');});}};})();
 let pv=0;
 function step(dt){S.t+=dt;const t=S.t;
 if(S.mode==='pre'){PRE.step(dt);}

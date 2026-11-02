@@ -2690,7 +2690,7 @@ body[data-not-sent] > #vis-container ~ #not-sent {
       </marker>
     </defs>
   </svg><div id="vis-container"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;family=Rubik:wght@700;800&amp;display=swap">
-<h2 class="sr-only">Interactive voxel portfolio world where a minecart rides a wooden trestle past the ARIVIHAN classroom, the PEAKMIND tree, the EDME office and a Nether portal detour to a connect station.</h2>
+<h2 class="sr-only">Interactive voxel portfolio world where a minecart rides a wooden trestle past the ARIVIHAN classroom, the  tree, the EDME office and a Nether portal detour to a connect station.</h2>
 <style>
 #vd{position:relative;width:100%;height:100vh;overflow:hidden;border-radius:12px;background:#62b4f4;outline:none;user-select:none;-webkit-user-select:none}
 #vd canvas{display:block;width:100%;height:100%}
@@ -2921,7 +2921,7 @@ html.wo-lock,html.wo-lock body{overflow:hidden}
   Product Designer Specialising in AI Products, From Strategy to Shipped Experience.
 </h2>
 <hr style="border: none; border-top: 1px solid #121212; margin: 16px 0;">
-<p>I have designed for Arivihan, Peakmind, HCL, EDME (fmr. Aditya Birla Insurance), House of Abhinandan Lodha and Competishun.</p>
+<p>I have designed for Arivihan, , HCL, EDME (fmr. Aditya Birla Insurance), House of Abhinandan Lodha and Competishun.</p>
 <button class="pri" id="explore">Explore <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
 </section>
 <div id="hint" class="px"><span>USE</span><button id="kl" aria-label="Move left">←</button><button id="kr" aria-label="Move right">→</button><span>TO MOVE</span></div>
@@ -3149,7 +3149,7 @@ for(const[x,y]of[[c-5.6,F+4.6],[c-4.6,F+5.2],[c-3.6,F+5.8]])put('leaves',x,y,-2.
 oak(S-8,7,-7,4,2);oak(S+9,7,-6,4,2);
 [[S-8.6,-2.4],[S-7.2,-2.3],[S+7.6,-2.4],[S+9.2,-2.5],[S-3,-2.4],[S+4,-2.5]].forEach(([x,z])=>{flower(x,7,z);tuft(x+.5,7,z-.3);});
 plight(c,F+3.2,-4.2,.8,10);}
-function stationPeakmind(S){const F=6;
+function station(S){const F=6;
 [[-9,10,9],[-8,9,8],[-7,8,7],[-6,7,5.85]].forEach(([z,top,bot])=>{put('fall',S-5.5,(top+bot)/2,z+.55,2.6,top-bot,.1);put('fall',S-5.5,top+.04,z,2.6,.08,1);});
 col('#f4faff',S-5.5,5.95,-5.0,3.2,.16,.6);for(let i=0;i<7;i++)col('#eef8ff',S-5.5+(rnd()-.5)*3,6.05+rnd()*.25,-4.9+rnd()*.5,.26,.2,.26);
 for(let x=S-9;x<=S-3;x++)for(let z=-2;z>=-5;z--)put('water',x,5.42,z,1,.85,1);
@@ -3159,7 +3159,7 @@ const cx=S+4.5,cz=-6.5;[[12,8,4.2],[13,8.6,4.6],[14,8,4.4],[15,6.4,3.6],[16,4.2,
 for(let x=S-3;x<=S+12;x++){if(rnd()<.45)blk('leaves',x,11,-3);if(rnd()<.3)vine(x,11,-2.4,.6+rnd()*1.4);}
 put('log',S+1.3,11.5,-3.4,6.4,.55,.55);put('log',S+4.4,11.5,-4.9,.55,.55,3.2);
 col('#2b2420',S-.7,10.95,-3.4,.05,.9,.05);col('#2b2420',S+2.9,10.95,-3.4,.05,.9,.05);
-put('dwood',S+1.1,10.2,-3.45,4.7,1.45,.12);signs.push({k:'wood',txt:'PEAKMIND',icon:true,x:S+1.1,y:10.2,z:-3.38,w:4.4,h:1.15});
+put('dwood',S+1.1,10.2,-3.45,4.7,1.45,.12);signs.push({k:'wood',txt:'',icon:true,x:S+1.1,y:10.2,z:-3.38,w:4.4,h:1.15});
 lantern(S+3.9,10.4,-3.4);lantern(S,8.9,-3.3,true);col('#2b2420',S,9.9,-3.3,.05,.6,.05);lantern(S+8.4,10.6,-3.2);
 const A=addP({shirt:'#14988a',sleeve:'#14988a',pants:'#2f4a80',hair:'#2a1b12',closed:true,phones:true,pose:'cross'},S+.6,F,-4.3,.1);
 const B=addP({shirt:'#9a56c8',pants:'#3a60a6',hair:'#764020',long:true,closed:true,pose:'hug'},S+2.75,F,-4.5,-.1);
@@ -3215,7 +3215,7 @@ put('plank',S+2.2,FLOOR+.55,-5.4,3,.16,.6);put('crate',S+5.4,FLOOR+.45,-4.4,.9,.
 col('#2b2420',S+7,FLOOR+.6,-2.2,.2,1.2,.2);lantern(S+7,FLOOR+1.45,-2.2,false);col('#2b2420',S+3,3.65,2.5,.2,1.3,.2);lantern(S+3,4.6,2.5,false);
 vine(S+7.4,FLOOR+5,-1.1,2);vine(S-7.9,FLOOR+4,-1.1,1.2);[[S-.6,1.6],[S+.3,2.2],[S+1.2,1.5]].forEach(([x,l])=>vine(x,FLOOR-.3,-1.8,l));
 plight(S+2.2,FLOOR+3.2,-.4);}
-stationArivihan(S1);stationPeakmind(S2);stationEdme(S3);stationConnect(S4);
+stationArivihan(S1);station(S2);stationEdme(S3);stationConnect(S4);
 flush();
 const dr=T.dirt.clone();dr.needsUpdate=true;dr.wrapS=dr.wrapT=THREE.RepeatWrapping;dr.repeat.set(400,12);
 const slabG=new THREE.Mesh(new THREE.BoxGeometry(400,12,40),L({map:dr}));slabG.position.set(120,-6,-11.5);slabG.receiveShadow=true;scene.add(slabG);
@@ -3247,7 +3247,7 @@ const fontReady=document.fonts&&document.fonts.load?Promise.race([Promise.all([d
 const signsReady=fontReady.catch(()=>{}).then(()=>signs.forEach(s=>{const tex=s.k==='edme'?edmeSign():s.k==='wood'?woodSign(s.txt,s.icon):textTex(s.txt,s.o||{});plane(tex,s.w,s.h,s.x,s.y,s.z);}));
 const STOPS=[{x:37,c:47.5,k:'p',n:1},{x:85,c:96.5,k:'p',n:2},{x:133,c:145,k:'p',n:3},{x:182,c:192.5,k:'w'},{x:231,c:238.75,k:'c'}];
 const NEED=24;
-const RESUME='https://drive.google.com/file/d/1Lvx7to9XjeEAgrXfOYAyqu81L6tWaNlv/view?usp=sharing';
+const RESUME='https://drive.google.com/file/d/1zu88RbV5W2wrdhHfRWkw-3fWaN3eb-RT/view?usp=sharing';
 const LINKEDIN='https://www.linkedin.com/in/nishant-j-dixit/';const EMAIL='hello.nishantjdixit@gmail.com';
 
 const P = [
@@ -3261,7 +3261,7 @@ const P = [
   },
   {
     t: 'PEAKMIND',
-    d: 'Led product design for 18 months at Peakmind, a student mental wellness platform combining user research, product strategy and visual design. Designed app UI, visuals, dashboards and motion graphics. <br> Redesigned the chatbot across conversation, character and UI, increasing average session time by 37%',
+    d: 'Led product design for 18 months at Peakmind, a student mental wellness platform combining user research, product strategy and visual design. Designed app UI, visuals, dashboards and motion graphics. Redesigned the chatbot across conversation, character and UI, increasing average session time by 37%',
     img: 'img/peakmind.png',
     link: 'https://www.figma.com/proto/DU9RVYMAVxiM3L72Nr9ejL/holmes-site?node-id=3540-11737&viewport=-3714%2C229%2C0.05&t=N1M1eB7naTy8CBFg-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=3540%3A11737&show-proto-sidebar=1&page-id=3234%3A10543',
     tint: '#dcefd8',

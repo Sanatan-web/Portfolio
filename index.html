@@ -3919,28 +3919,18 @@ const NIGHT=(()=>{let on=false,k=0,sk=0,tw=0;
     const hh=500*Math.tan(cam.fov*Math.PI/360),hw=hh*cam.aspect,mx=Math.min(hw*.62,hw-26),my=hh*.64;
     moon.position.set(mx,my,-500);moon.scale.setScalar(20);halo.position.set(mx,my,-501);halo.scale.setScalar(34);}
   return{start(){if(!on){on=true;k=.85;}},update};})();   // starts almost fully dark behind the portal flash, then deepens
-  // ===================== [ENDERMAN] stands on the ledge behind the track by the waterfall, before Connect: watches the cart and,
-// when it rolls too close, teleports away with a puff of purple particles (eyes glow at night) =====================
-const ENDER=(()=>{const SC=1.4,spots=[[225.5,-9],[229.8,-12.4],[213,-12]],K='#151515',Kd='#0e0e0e';let at=0,cool=0,last=0,cx0=null;
-  const root=new THREE.Group(),body=new THREE.Group();root.add(body);root.scale.setScalar(SC);scene.add(root);
+// ===================== [ENDERMAN] a big Enderman stands on the ledge behind the track by the waterfall, before Connect,
+// minding his own business: a slow sway and the odd glance around (eyes glow at night) =====================
+const ENDER=(()=>{const SC=2.4,X=225.5,Z=-9,K='#151515',Kd='#0e0e0e';
+  const root=new THREE.Group(),body=new THREE.Group();root.add(body);root.scale.setScalar(SC);root.position.set(X,gh(X,Z),Z);root.rotation.y=.35;scene.add(root);
   const limb=(x,y)=>{const g=new THREE.Group();g.position.set(x,y,0);bx(g,Kd,.12,1.9,.12,0,-.95,0);body.add(g);return g;};
-  const legL=limb(-.1,1.9),legR=limb(.1,1.9);bx(body,K,.5,.75,.26,0,2.27,0);const armL=limb(-.31,2.6),armR=limb(.31,2.6);
+  limb(-.1,1.9);limb(.1,1.9);bx(body,K,.5,.75,.26,0,2.27,0);const armL=limb(-.31,2.6),armR=limb(.31,2.6);
   const head=new THREE.Group();head.position.y=2.64;body.add(head);bx(head,K,.5,.5,.5,0,.25,0);
   const eye=new THREE.MeshBasicMaterial({color:'#d77bff'}),eyeC=new THREE.MeshBasicMaterial({color:'#f6d8ff'});   // glowing eyes
   for(const s of[-1,1]){const e=new THREE.Mesh(UB,eye);e.scale.set(.16,.05,.02);e.position.set(s*.13,.2,.252);head.add(e);const c=new THREE.Mesh(UB,eyeC);c.scale.set(.06,.05,.025);c.position.set(s*.13,.2,.254);head.add(c);}
-  const place=i=>{at=i;const[x,z]=spots[i];root.position.set(x,gh(x,z),z);root.rotation.y=.35;};place(0);
-  // teleport particles
-  const pm=[new THREE.MeshBasicMaterial({color:'#b45cff'}),new THREE.MeshBasicMaterial({color:'#e8a8ff'})],P=[];
-  const puff=(x,y,z)=>{for(let i=0;i<18;i++){const m=new THREE.Mesh(UB,pm[i&1]),s=.1+Math.random()*.12;m.scale.setScalar(s);m.position.set(x+(Math.random()-.5)*1.2,y+Math.random()*4.2,z+(Math.random()-.5)*1.2);scene.add(m);
-    P.push({m,s,v:new THREE.Vector3((Math.random()-.5)*1.5,(Math.random()-.3)*1.5,(Math.random()-.5)*1.5),t:0,max:.6+Math.random()*.5});}};
-  function update(t){const dt=Math.min(.05,Math.max(0,t-last));last=t;cool-=dt;
-    const cx=cart.position.x,moving=cx0!==null&&Math.abs(cx-cx0)>1e-3;cx0=cx;
-    if(moving&&cool<=0&&Math.abs(cx-root.position.x)<5){let best=at,bd=-1;spots.forEach(([x],i)=>{if(i!==at&&Math.abs(x-cx)>bd){bd=Math.abs(x-cx);best=i;}});
-      puff(root.position.x,root.position.y,root.position.z);place(best);puff(root.position.x,root.position.y,root.position.z);cool=4;}
-    const sw=Math.sin(t*1.3);body.rotation.z=.03*sw;armL.rotation.x=.08*sw;armR.rotation.x=-.08*sw;legL.rotation.x=legR.rotation.x=0;   // slow sway
-    const yaw=Math.atan2(cx-root.position.x,2-root.position.z)-root.rotation.y;head.rotation.y=Math.max(-1,Math.min(1,yaw));          // watches the cart
-    for(let i=P.length-1;i>=0;i--){const q=P[i];q.t+=dt;if(q.t>=q.max){scene.remove(q.m);P.splice(i,1);continue;}q.m.position.addScaledVector(q.v,dt);q.m.scale.setScalar(q.s*(1-q.t/q.max));}}
-  anims.push(update);return{update};})();
+  anims.push(t=>{const sw=Math.sin(t*1.1);body.rotation.z=.025*sw;armL.rotation.x=.07*sw;armR.rotation.x=-.07*sw;   // slow sway
+    head.rotation.y=.55*Math.sin(t*.37)*Math.max(0,Math.sin(t*.13+1));head.rotation.x=.08*Math.sin(t*.29);});         // glances around now and then
+  return{};})();
 let pv=0;
 function step(dt){S.t+=dt;const t=S.t;
 if(S.mode==='pre'){PRE.step(dt);}

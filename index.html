@@ -3749,7 +3749,7 @@ function toNether(){look(true);hero.add(rider.g);rider.g.position.set(0,.82,0);r
   rider.armL.rotation.set(0,0,0);rider.armR.rotation.set(0,0,0);rider.head.rotation.set(0,0,0);rider.armL.add(sword);
   hx=LAND;hy=G+10;vy=0;hv=0;yaw=1.1;face=1;pitch=0;swing=-1;hero.position.set(hx,hy,0);S.camX=hx+camOff();st='fall';t=0;}
 function toWorld(){look(false);rider.armL.remove(sword);wrap.add(rider.g);rider.g.position.set(0,0,0);rider.g.rotation.set(0,.35,0);rider.g.rotation.order='XYZ';legs.forEach(l=>l.rotation.x=-.35);
-  rider.head.rotation.set(0,0,0);rider.armL.rotation.set(-1.05,0,0);rider.armR.rotation.set(-1.05,0,0);S.x=P+2.6;S.v=0;S.camX=S.x+camOff();tag.classList.remove('on');st='back';t=0;done=true;if(chestOpen)TB.show();}
+  rider.head.rotation.set(0,0,0);rider.armL.rotation.set(-1.05,0,0);rider.armR.rotation.set(-1.05,0,0);S.x=P+2.6;S.v=0;S.camX=S.x+camOff();tag.classList.remove('on');st='back';t=0;done=true;if(chestOpen)TB.show();NIGHT.start();}
 function enter(){st='bump';t=0;S.mode='portal';S.cam='follow';S.v=0;S.x=TRIG;S.parked=-1;closeCard();}
 function trip(){if(st!=='play')return;st='trip';t=0;S.mode='portal';closeCard();tag.classList.remove('on');}
 function tryOpen(tap){if(st!=='play'||treasure!=='ready'||Math.abs(hx-CHX)>(tap?8:3))return false;const wi=STOPS.findIndex(s=>s.k==='w');
@@ -3880,6 +3880,35 @@ const TB=(()=>{const icon='<svg viewBox="0 0 16 16" width="18" height="18" shape
     b.innerHTML=icon+(id==='mnav'?'Other works':'');$(id).appendChild(b);
     b.addEventListener('click',()=>{if(menuOpen)setMenu(false,false);const i=STOPS.findIndex(s=>s.k==='w');if(S.card===i)closeCard();else openCard(i);});return b;});
   return{show(){if(!bs[0].hidden)return;bs.forEach(b=>{b.hidden=false;b.classList.add('in');});}};})();
+  // ===================== [NIGHT] coming back out of the Nether, day has turned to night: navy sky, Minecraft moon and stars, moonlight,
+// brighter lanterns and the miner's helmet lamp lighting the track ahead. Lasts for the rest of the visit. =====================
+const NIGHT=(()=>{let on=false,k=0,sk=0,tw=0;
+  const C=c=>new THREE.Color(c),day={top:skyU.top.value.clone(),mid:skyU.mid.value.clone(),bot:skyU.bot.value.clone(),fog:scene.fog.color.clone(),near:scene.fog.near,far:scene.fog.far,
+    hc:hemi.color.clone(),hg:hemi.groundColor.clone(),hi:hemi.intensity,sc:sun.color.clone(),si:sun.intensity,cc:cloudMat.color.clone(),ce:cloudMat.emissive.clone(),pl:pl.map(p=>p.intensity)};
+  const nt={top:C('#060a1c'),mid:C('#101a3e'),bot:C('#22305e'),fog:C('#141d3a'),near:80,far:220,hc:C('#6b7cc0'),hg:C('#1b1a2c'),hi:.42,sc:C('#a9bbff'),si:.32,cc:C('#7d86a6'),ce:C('#1a2034')};
+  // stars: square pixels fixed to the sky behind everything; a second layer twinkles
+  const dpr=renderer.getPixelRatio(),layer=(n,size)=>{const P=[],Cl=[];for(let i=0;i<n;i++){P.push((Math.random()*2-1)*420,Math.random()*150-10,-510);const c=.65+Math.random()*.35;Cl.push(c,c,Math.min(1,c+.08));}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('color',new THREE.Float32BufferAttribute(Cl,3));
+    const m=new THREE.Points(g,new THREE.PointsMaterial({size:size*dpr,sizeAttenuation:false,vertexColors:true,transparent:true,opacity:0,fog:false,depthWrite:false}));m.renderOrder=-9;m.frustumCulled=false;m.visible=false;cam.add(m);return m;};
+  const stars=layer(220,2.5),twinkle=layer(60,3.5);
+  // the square Minecraft moon with a soft halo
+  const mc=cv(16,16),g=mc.getContext('2d');g.fillStyle='#f3f1e4';g.fillRect(0,0,16,16);g.fillStyle='#d6d4c4';[[3,3,3,2],[9,5,3,3],[5,10,2,2],[11,11,2,2],[2,8,1,1]].forEach(r=>g.fillRect(...r));
+  g.fillStyle='#bdbbab';[[4,4,1,1],[10,6,1,1],[12,12,1,1]].forEach(r=>g.fillRect(...r));const mt=lt(mc);mt.magFilter=THREE.NearestFilter;
+  const moon=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:mt,transparent:true,opacity:0,fog:false,depthWrite:false}));moon.renderOrder=-8;moon.visible=false;cam.add(moon);
+  const halo=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({color:'#9fb4ff',transparent:true,opacity:0,fog:false,depthWrite:false}));halo.renderOrder=-9;halo.visible=false;cam.add(halo);
+  // helmet lamp: a spotlight from the rider's helmet down the track ahead (always present, dark by day, so no shader rebuild at nightfall)
+  const lamp=new THREE.SpotLight('#ffe2a0',0,20,.52,.55,1);lamp.position.set(.15,1.3,0);lamp.target.position.set(5.5,-1.1,0);wrap.add(lamp,lamp.target);
+  function apply(){const l=(a,b)=>a.clone().lerp(b,k);skyU.top.value.copy(l(day.top,nt.top));skyU.mid.value.copy(l(day.mid,nt.mid));skyU.bot.value.copy(l(day.bot,nt.bot));
+    scene.fog.color.copy(l(day.fog,nt.fog));scene.fog.near=day.near+(nt.near-day.near)*k;scene.fog.far=day.far+(nt.far-day.far)*k;
+    hemi.color.copy(l(day.hc,nt.hc));hemi.groundColor.copy(l(day.hg,nt.hg));hemi.intensity=day.hi+(nt.hi-day.hi)*k;sun.color.copy(l(day.sc,nt.sc));sun.intensity=day.si+(nt.si-day.si)*k;
+    cloudMat.color.copy(l(day.cc,nt.cc));cloudMat.emissive.copy(l(day.ce,nt.ce));pl.forEach((p,i)=>p.intensity=day.pl[i]*(1+.9*k));}
+  function update(dt){if(!on)return;const inN=['fall','getup','play','trip'].includes(NETHER.state);   // inside the Nether: its own look applies
+    for(const o of[stars,twinkle,moon,halo])o.visible=!inN;if(inN){lamp.intensity=0;return;}
+    k=Math.min(1,k+dt/1.2);sk=Math.min(1,sk+dt/2);tw+=dt;apply();lamp.intensity=2.8*k;
+    stars.material.opacity=sk;twinkle.material.opacity=sk*(.35+.65*Math.abs(Math.sin(tw*1.7)));moon.material.opacity=sk;halo.material.opacity=.14*sk;
+    const hh=500*Math.tan(cam.fov*Math.PI/360),hw=hh*cam.aspect,mx=Math.min(hw*.62,hw-26),my=hh*.64;
+    moon.position.set(mx,my,-500);moon.scale.setScalar(20);halo.position.set(mx,my,-501);halo.scale.setScalar(34);}
+  return{start(){if(!on){on=true;k=.85;}},update};})();   // starts almost fully dark behind the portal flash, then deepens
 let pv=0;
 function step(dt){S.t+=dt;const t=S.t;
 if(S.mode==='pre'){PRE.step(dt);}
@@ -3906,6 +3935,8 @@ ENC.update(dt);
 MOBS.update(dt);
 NETHER.update(dt);
 LIFE.update(dt);
+LIFE.update(dt);
+NIGHT.update(dt);                  
 ui();}
 
 // ===================== [PRELOADER] black screen → dig through Minecraft ground → fall down the shaft → existing cart landing =====================

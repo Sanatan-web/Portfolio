@@ -3880,8 +3880,8 @@ const TB=(()=>{const icon='<svg viewBox="0 0 16 16" width="18" height="18" shape
     b.innerHTML=icon+(id==='mnav'?'Other works':'');$(id).appendChild(b);
     b.addEventListener('click',()=>{if(menuOpen)setMenu(false,false);const i=STOPS.findIndex(s=>s.k==='w');if(S.card===i)closeCard();else openCard(i);});return b;});
   return{show(){if(!bs[0].hidden)return;bs.forEach(b=>{b.hidden=false;b.classList.add('in');});}};})();
-  // ===================== [NIGHT] coming back out of the Nether, day has turned to night: navy sky, Minecraft moon and stars, moonlight,
-// brighter lanterns and the miner's helmet lamp lighting the track ahead. Lasts for the rest of the visit. =====================
+// ===================== [NIGHT] coming back out of the Nether, day has turned to night: navy sky, Minecraft moon and stars, moonlight,
+// brighter lanterns, and a lantern on the front of the cart lighting the track ahead. Lasts for the rest of the visit. =====================
 const NIGHT=(()=>{let on=false,k=0,sk=0,tw=0;
   const C=c=>new THREE.Color(c),day={top:skyU.top.value.clone(),mid:skyU.mid.value.clone(),bot:skyU.bot.value.clone(),fog:scene.fog.color.clone(),near:scene.fog.near,far:scene.fog.far,
     hc:hemi.color.clone(),hg:hemi.groundColor.clone(),hi:hemi.intensity,sc:sun.color.clone(),si:sun.intensity,cc:cloudMat.color.clone(),ce:cloudMat.emissive.clone(),pl:pl.map(p=>p.intensity)};
@@ -3896,15 +3896,25 @@ const NIGHT=(()=>{let on=false,k=0,sk=0,tw=0;
   g.fillStyle='#bdbbab';[[4,4,1,1],[10,6,1,1],[12,12,1,1]].forEach(r=>g.fillRect(...r));const mt=lt(mc);mt.magFilter=THREE.NearestFilter;
   const moon=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:mt,transparent:true,opacity:0,fog:false,depthWrite:false}));moon.renderOrder=-8;moon.visible=false;cam.add(moon);
   const halo=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({color:'#9fb4ff',transparent:true,opacity:0,fog:false,depthWrite:false}));halo.renderOrder=-9;halo.visible=false;cam.add(halo);
-  // helmet lamp: a spotlight from the rider's helmet down the track ahead (always present, dark by day, so no shader rebuild at nightfall)
-  const lamp=new THREE.SpotLight('#ffe2a0',0,20,.52,.55,1);lamp.position.set(.15,1.3,0);lamp.target.position.set(5.5,-1.1,0);wrap.add(lamp,lamp.target);
+  // cart lantern (Minecraft style) hung from a little iron hook on the front rim; only out at night
+  const lan=new THREE.Group();lan.visible=false;cartBody.add(lan);const IR='#3b4148';
+  bx(lan,IR,.06,.42,.06,.95,1.74,0);bx(lan,IR,.3,.06,.06,1.08,1.93,0);bx(lan,IR,.04,.08,.04,1.2,1.87,0);
+  const lt0=new THREE.Group();lt0.position.set(1.2,1.62,0);lt0.scale.setScalar(1.35);lan.add(lt0);
+  bx(lt0,IR,.1,.04,.04,0,.2,0);bx(lt0,IR,.22,.06,.22,0,.14,0);bx(lt0,IR,.22,.05,.22,0,-.13,0);for(const a of[-.09,.09])for(const c of[-.09,.09])bx(lt0,IR,.035,.22,.035,a,0,c);
+  const core=new THREE.Mesh(UB,new THREE.MeshBasicMaterial({color:'#ffd27a'}));core.scale.set(.16,.2,.16);lt0.add(core);
+  const hc=cv(64,64),hg=hc.getContext('2d'),gr=hg.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,'rgba(255,214,130,.95)');gr.addColorStop(.35,'rgba(255,170,70,.35)');gr.addColorStop(1,'rgba(255,150,40,0)');
+  hg.fillStyle=gr;hg.fillRect(0,0,64,64);const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:lt(hc),transparent:true,opacity:0,depthWrite:false,fog:false,blending:THREE.AdditiveBlending}));
+  glow.position.set(1.2,1.62,0);glow.scale.setScalar(1.7);lan.add(glow);
+  // its light: a spotlight from the lantern down the track ahead (always present, dark by day, so no shader rebuild at nightfall)
+  const lamp=new THREE.SpotLight('#ffd99a',0,20,.55,.55,1);lamp.position.set(1.2,1.6,0);lamp.target.position.set(6.5,-.2,0);cartBody.add(lamp,lamp.target);
   function apply(){const l=(a,b)=>a.clone().lerp(b,k);skyU.top.value.copy(l(day.top,nt.top));skyU.mid.value.copy(l(day.mid,nt.mid));skyU.bot.value.copy(l(day.bot,nt.bot));
     scene.fog.color.copy(l(day.fog,nt.fog));scene.fog.near=day.near+(nt.near-day.near)*k;scene.fog.far=day.far+(nt.far-day.far)*k;
     hemi.color.copy(l(day.hc,nt.hc));hemi.groundColor.copy(l(day.hg,nt.hg));hemi.intensity=day.hi+(nt.hi-day.hi)*k;sun.color.copy(l(day.sc,nt.sc));sun.intensity=day.si+(nt.si-day.si)*k;
     cloudMat.color.copy(l(day.cc,nt.cc));cloudMat.emissive.copy(l(day.ce,nt.ce));pl.forEach((p,i)=>p.intensity=day.pl[i]*(1+.9*k));}
   function update(dt){if(!on)return;const inN=['fall','getup','play','trip'].includes(NETHER.state);   // inside the Nether: its own look applies
-    for(const o of[stars,twinkle,moon,halo])o.visible=!inN;if(inN){lamp.intensity=0;return;}
-    k=Math.min(1,k+dt/1.2);sk=Math.min(1,sk+dt/2);tw+=dt;apply();lamp.intensity=2.8*k;
+    for(const o of[stars,twinkle,moon,halo,lan])o.visible=!inN;if(inN){lamp.intensity=0;return;}
+    k=Math.min(1,k+dt/1.2);sk=Math.min(1,sk+dt/2);tw+=dt;apply();
+    const fl=.88+.08*Math.sin(tw*13)+.05*Math.sin(tw*31+1.3);lamp.intensity=3*k*fl;core.material.color.setRGB(1,.72+.1*fl,.38+.1*fl);glow.material.opacity=.75*sk*fl;   // lantern flicker
     stars.material.opacity=sk;twinkle.material.opacity=sk*(.35+.65*Math.abs(Math.sin(tw*1.7)));moon.material.opacity=sk;halo.material.opacity=.14*sk;
     const hh=500*Math.tan(cam.fov*Math.PI/360),hw=hh*cam.aspect,mx=Math.min(hw*.62,hw-26),my=hh*.64;
     moon.position.set(mx,my,-500);moon.scale.setScalar(20);halo.position.set(mx,my,-501);halo.scale.setScalar(34);}

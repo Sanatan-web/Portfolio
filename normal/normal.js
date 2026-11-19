@@ -134,15 +134,25 @@ const CS=(()=>{
     requestAnimationFrame(()=>requestAnimationFrame(()=>{f.classList.remove('from-l','from-r');if(old){old.classList.add(dir<0?'out-r':'out-l');setTimeout(()=>old.remove(),600);}}));
     cur=f;i=k;const n=p.files.length;bar.style.width=((k+1)/n*100)+'%';N.textContent=(k+1)+' / '+n;
     prev.disabled=k===0;next.disabled=k===n-1;next.classList.toggle('hint',k===0);warm(k+1);warm(k+2);warm(k-1);}
+  // phones: open in landscape. Android Chrome can really rotate (full screen + orientation lock);
+  // elsewhere (e.g. iPhone) the player itself is turned 90° while the phone is held upright.
+  const phone=()=>matchMedia('(pointer:coarse)').matches&&Math.min(screen.width,screen.height)<=820;
+  let locked=false;
+  function landscape(){if(!phone())return;el.classList.add('cs-land');
+    const fs=el.requestFullscreen||el.webkitRequestFullscreen;if(!fs)return;
+    Promise.resolve(fs.call(el)).then(()=>screen.orientation&&screen.orientation.lock?screen.orientation.lock('landscape'):Promise.reject()).then(()=>{locked=true;}).catch(()=>{});}
+  function unlandscape(){el.classList.remove('cs-land');try{if(locked&&screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();}catch(e){}locked=false;
+    const fe=document.fullscreenElement||document.webkitFullscreenElement;if(fe===el){const ex=document.exitFullscreen||document.webkitExitFullscreen;try{const r=ex.call(document);if(r&&r.catch)r.catch(()=>{});}catch(e){}}}
+  const turned=()=>el.classList.contains('cs-land')&&matchMedia('(orientation:portrait)').matches;
   function show(idx,from){p=P[idx];if(!p)return;clearTimeout(hideT);back=from||document.activeElement;stage.replaceChildren();cur=null;i=0;
-    T.textContent=p.t;el.hidden=false;de.classList.add('nv-lock');open=true;go(0,1);
+    landscape();T.textContent=p.t;el.hidden=false;de.classList.add('nv-lock');open=true;go(0,1);
     requestAnimationFrame(()=>el.classList.add('on'));setTimeout(()=>next.focus({preventScroll:true}),60);}
-  function close(){if(!open)return;open=false;el.classList.remove('on');de.classList.remove('nv-lock');
+  function close(){if(!open)return;open=false;unlandscape();el.classList.remove('on');de.classList.remove('nv-lock');
     hideT=setTimeout(()=>{el.hidden=true;stage.replaceChildren();cur=null;},320);if(back&&back.isConnected&&back.focus)back.focus({preventScroll:true});}
   prev.addEventListener('click',()=>go(i-1,-1));next.addEventListener('click',()=>go(i+1,1));X.addEventListener('click',close);
   // swipe on touch screens
   let sx=null,sy=0;stage.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'){sx=e.clientX;sy=e.clientY;}});
-  stage.addEventListener('pointerup',e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))go(i+(dx<0?1:-1),dx<0?1:-1);});
+  stage.addEventListener('pointerup',e=>{if(sx==null)return;let dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(turned()){const t=dx;dx=dy;dy=-t;}if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))go(i+(dx<0?1:-1),dx<0?1:-1);});
   // keys win over everything else on the page (and over Cinematic Mode's own keys) while open
   addEventListener('keydown',e=>{if(!open)return;const k=e.key;let h=true;
     if(k==='ArrowRight'||k==='PageDown'||k===' ')go(i+1,1);

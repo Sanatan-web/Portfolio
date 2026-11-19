@@ -78,6 +78,20 @@
   #ms#ms .ms-cards{grid-template-columns:1fr}
   #ms#ms .ms-card{gap:12px}
 }
+/* phones (portrait): everything fits on one screen, no scrolling — the two options share the height left under the heading */
+@media (max-width:760px) and (min-height:540px){
+  #ms#ms{overflow:hidden;align-items:stretch}
+  #ms#ms .ms-inner{display:flex;flex-direction:column;height:100vh;height:100svh;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom))}
+  #ms#ms .ms-eyebrow{font-size:8.5px;letter-spacing:1.5px}
+  #ms#ms h1{flex:none;margin:8px auto 18px;font-size:clamp(24px,7vw,30px);line-height:1.08}
+  #ms#ms .ms-cards{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:clamp(14px,3vh,26px);width:100%}
+  #ms#ms .ms-card{min-height:0;gap:8px;justify-content:center}
+  #ms#ms .ms-prev{flex:1 1 0;min-height:0;aspect-ratio:auto;margin:0}
+  #ms#ms .ms-prev canvas{position:absolute;inset:0}
+  #ms#ms h2{font-size:20px}
+  #ms#ms .ms-go{margin:4px 0 0;padding:11px 20px;font-size:14px}
+  #ms#ms .ms-go::before{display:none}
+}
 @media (prefers-reduced-motion:reduce){
   #ms#ms,#ms#ms .ms-card,#ms#ms .ms-card::after{transition:none}
   #ms#ms .ms-load i::after,#ms#ms .ms-go::before,#ms#ms .mp .in{animation:none}

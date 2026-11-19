@@ -182,6 +182,16 @@ function buildStart(){
   const wt=woodSign('NISHANT J. DIXIT',{sub:'PRODUCT DESIGNER · AI PRODUCTS'});cube('#3b2414',0,4.2,c-4,5.2,1.35,.05);plane(wt,5,1.25,0,4.2,c-4+.03,0);plane(wt,5,1.25,0,4.2,c-4-.03,PI);
   for(const x of[-1.9,1.9])cube('#2b2420',x,4.95,c-4,.05,.25,.05);
   lantern(-3.2,5.95,c-4);lantern(3.2,5.95,c-4);
+  // just past the gate: a board on each side of the path with the three headline stats (the same as the simple page)
+  const stats=sign({w:512,h:640,draw(g,w,h){g.fillStyle='#4e2a10';g.fillRect(0,0,w,h);g.fillStyle='#93562a';g.fillRect(14,14,w-28,h-28);
+    g.fillStyle='#fbeccb';g.font='24px '+PF;g.textAlign='center';g.textBaseline='alphabetic';g.fillText('AT A GLANCE',w/2,74);g.fillStyle='#6b3d1a';g.fillRect(60,96,w-120,4);
+    [['3.5+','YEARS OF','EXPERIENCE'],['8+','PROJECTS','SHIPPED'],['10M+','LIVES','IMPACTED']].forEach(([v,a,b],i)=>{const y=210+i*168;
+      g.fillStyle='#fbeccb';g.font='800 92px '+HF;g.fillText(v,w/2,y);g.fillStyle='#f6d28a';g.font='18px '+PF;g.fillText(a+' '+b,w/2,y+44);
+      if(i<2){g.fillStyle='rgba(60,30,10,.45)';g.fillRect(150,y+78,w-300,3);}});}});
+  for(const sd of[-1,1]){const f=F(sd*5.6,c-6,-sd*.42);
+    for(const lx of[-.95,.95])f.cube('#6b4423',lx,1.7,0,.18,3.4,.18);
+    f.cube('#3b2414',0,2.05,0,2.3,2.86,.1);f.plane(stats,2.16,2.7,0,2.05,.06,0,0);f.plane(stats,2.16,2.7,0,2.05,-.06,PI,0);
+    f.cube('#2b2420',0,3.56,0,2.5,.12,.3);f.solid(0,0,2.4,.4);}
   // portal back to Normal Mode
   const px=-7.5,pz=c+4;for(let i=-2;i<=2;i++){blk('obsidian',px,.5,pz+i);blk('obsidian',px,5.5,pz+i);}for(let y=1;y<=4;y++){blk('obsidian',px,y+.5,pz-2);blk('obsidian',px,y+.5,pz+2);}
   const portal=screen(64,128,(g,t,w,h)=>{g.fillStyle='#4a12a8';g.fillRect(0,0,w,h);for(let i=0;i<60;i++){const y=((i*37+t*40*(1+i%3))%h),x=(i*53+sin(t+i)*6)%w;g.fillStyle=i%2?'rgba(210,140,255,.75)':'rgba(30,0,80,.6)';g.fillRect(x|0,y|0,2+(i%3),5+(i%4));}},12);

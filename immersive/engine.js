@@ -285,10 +285,10 @@ function buildDOM(){
 <div class="im-hud">
   <div class="im-brand"><span class="px">IMMERSIVE MODE</span><span class="im-zone">Welcome</span></div>
   <nav class="im-track" aria-label="Jump to a station"><div class="im-line"><i class="im-you"></i></div></nav>
-  <div class="im-tr"><button class="im-btn im-b-st" type="button" aria-label="Stations"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1a5 5 0 0 0-5 5c0 3.6 5 9 5 9s5-5.4 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg><span class="lbl">Stations</span> <kbd>M</kbd></button><button class="im-btn im-b-view" type="button" aria-label="Change view"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 3C4.4 3 1.6 5.4.5 8c1.1 2.6 3.9 5 7.5 5s6.4-2.4 7.5-5C14.4 5.4 11.6 3 8 3zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg><span class="lbl im-view-l">1st person</span> <kbd>V</kbd></button><button class="im-btn im-b-menu" type="button" aria-label="Menu">☰ <span class="lbl">Menu</span></button></div>
+  <div class="im-tr"><button class="im-btn im-b-st" type="button" aria-label="Stations"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1a5 5 0 0 0-5 5c0 3.6 5 9 5 9s5-5.4 5-9a5 5 0 0 0-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg><span class="lbl">Stations</span> <kbd>M</kbd></button><button class="im-btn im-b-view" type="button" aria-label="Change view"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 3C4.4 3 1.6 5.4.5 8c1.1 2.6 3.9 5 7.5 5s6.4-2.4 7.5-5C14.4 5.4 11.6 3 8 3zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg><span class="lbl im-view-l">1st person</span> <kbd>V</kbd></button><button class="im-btn im-b-back" type="button" aria-label="Back to choosing a mode"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M10 3 5 8l5 5"/></svg><span class="lbl">Back</span> <kbd>B</kbd></button></div>
   <div class="im-cross"></div>
   <div class="im-prompt" aria-live="polite"><kbd>E</kbd><span></span></div>
-  <div class="im-help off"><span class="k"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>Move</span><span class="k"><kbd>↑</kbd><kbd>←</kbd><kbd>→</kbd></span><span>Walk and turn</span><span class="k"><kbd>SHIFT</kbd></span><span>Run</span><span class="k"><kbd>E</kbd></span><span>Interact</span><span class="k"><kbd>M</kbd></span><span>Stations</span><span class="k"><kbd>V</kbd></span><span>Change view</span><span class="k"><kbd>H</kbd></span><span>Hide this</span></div>
+  <div class="im-help off"><span class="k"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span>Move</span><span class="k"><kbd>↑</kbd><kbd>←</kbd><kbd>→</kbd></span><span>Walk and turn</span><span class="k"><kbd>SHIFT</kbd></span><span>Run</span><span class="k"><kbd>E</kbd></span><span>Interact</span><span class="k"><kbd>M</kbd></span><span>Stations</span><span class="k"><kbd>V</kbd></span><span>Change view</span><span class="k"><kbd>B</kbd></span><span>Back</span><span class="k"><kbd>H</kbd></span><span>Hide this</span></div>
   <div class="im-hint"></div>
   <div class="im-toast" role="status"></div>
 </div>
@@ -297,8 +297,8 @@ function buildDOM(){
   <div class="im-eb">IMMERSIVE MODE</div><h2 id="imStartT">Walk through my work</h2>
   <p>Follow the path from station to station. Each project has its own environment, and the glowing markers open its story.</p>
   <div class="im-keys">${TOUCH?
-    '<div><span class="k"><kbd>PAD</kbd></span>Left thumb pad to walk</div><div><span class="k"><kbd>DRAG</kbd></span>Drag anywhere to look</div><div><span class="k"><kbd>TAP</kbd></span>Interact with markers</div><div><span class="k"><kbd>MENU</kbd></span>Menu and stations</div>':
-    '<div><span class="k"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>Move</div><div><span class="k"><kbd>MOUSE</kbd></span>Look around</div><div><span class="k"><kbd>E</kbd></span>Interact</div><div><span class="k"><kbd>M</kbd></span>Jump to a station</div><div><span class="k"><kbd>SHIFT</kbd></span>Run</div><div><span class="k"><kbd>V</kbd></span>First or third person</div>'}</div>
+    '<div><span class="k"><kbd>PAD</kbd></span>Left thumb pad to walk</div><div><span class="k"><kbd>DRAG</kbd></span>Drag anywhere to look</div><div><span class="k"><kbd>TAP</kbd></span>Interact with markers</div><div><span class="k"><kbd>BACK</kbd></span>Back to choosing a mode</div>':
+    '<div><span class="k"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>Move</div><div><span class="k"><kbd>MOUSE</kbd></span>Look around</div><div><span class="k"><kbd>E</kbd></span>Interact</div><div><span class="k"><kbd>M</kbd></span>Jump to a station</div><div><span class="k"><kbd>SHIFT</kbd></span>Run</div><div><span class="k"><kbd>V</kbd></span>First or third person</div><div><span class="k"><kbd>B</kbd></span>Back to choosing a mode</div>'}</div>
   <div class="im-row"><button class="im-primary im-go" type="button">Start exploring</button><button class="im-ghost im-b-normal" type="button">Switch to Normal Mode</button></div>
 </div></div>
 <div class="im-menu" role="dialog" aria-modal="true" aria-labelledby="imMenuT"><div class="im-card">
@@ -317,7 +317,7 @@ function buildDOM(){
   q('.im-b-modes').addEventListener('click',goModes);
   q('.im-resume').addEventListener('click',()=>{lock();closeMenu();});
   q('.im-b-st').addEventListener('click',()=>openMenu());
-  q('.im-b-menu').addEventListener('click',()=>openMenu());
+  q('.im-b-back').addEventListener('click',goModes);   // back to the mode chooser (Esc still opens the in-world menu)
   {const gc=cv(160,160),gg=gc.getContext('2d'),gi=gg.createImageData(160,160);for(let i=0;i<gi.data.length;i+=4){const v=Math.random()*255|0;gi.data[i]=gi.data[i+1]=gi.data[i+2]=v;gi.data[i+3]=255;}gg.putImageData(gi,0,0);q('.im-film .gr').style.backgroundImage=`url(${gc.toDataURL()})`;}
   q('.im-b-view').addEventListener('click',()=>setView(view==='first'?'third':'first',true));
   q('.im-b-view2').addEventListener('click',()=>{setView(view==='first'?'third':'first',true);lock();closeMenu();});
@@ -383,11 +383,12 @@ function onKey(e,down){if(!active||viewerOpen()||(down&&e.defaultPrevented))retu
   if(c==='Escape'){if(state==='panel'){e.preventDefault();closePanel();}else if(state==='menu'){e.preventDefault();closeMenu();}else if(state==='play'||state==='ride'){e.preventDefault();openMenu();}return;}
   if(state==='start'&&(c==='Enter'||c==='Space')){e.preventDefault();lock();closeStart();return;}
   if(state==='panel'||state==='menu'){if(c==='KeyM'&&state==='menu'){closeMenu();lock();}return;}
-  if(state==='ride'){if(c==='KeyE'||c==='Enter'||c==='Space'){e.preventDefault();skipRide();}else if(c==='KeyM'){e.preventDefault();openMenu();}else if(c==='KeyV'){setView(view==='first'?'third':'first',true);}
+  if(state==='ride'){if(c==='KeyE'||c==='Enter'||c==='Space'){e.preventDefault();skipRide();}else if(c==='KeyB'){e.preventDefault();goModes();}else if(c==='KeyM'){e.preventDefault();openMenu();}else if(c==='KeyV'){setView(view==='first'?'third':'first',true);}
     else if(/^Digit[1-9]$/.test(c)){const z=zones[+c.slice(5)-1];if(z)travelTo(z.id);}return;}
   if(state!=='play')return;
   if(c==='KeyE'||c==='Enter'||c==='Space'){e.preventDefault();if(target)activate(target);}
   else if(c==='KeyM'){e.preventDefault();openMenu();}
+  else if(c==='KeyB'){e.preventDefault();goModes();}
   else if(c==='KeyH'){help(el.help.classList.contains('off'));}
   else if(c==='KeyV'){setView(view==='first'?'third':'first',true);}
   else if(/^Digit[1-9]$/.test(c)){const z=zones[+c.slice(5)-1];if(z)travelTo(z.id);}}

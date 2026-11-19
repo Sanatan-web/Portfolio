@@ -177,14 +177,6 @@ if('IntersectionObserver' in window){
   document.querySelectorAll('.np-card video').forEach(v=>vio.observe(v));
 }else rv.forEach(n=>n.classList.add('in'));
 
-// stats count up the first time they scroll into view
-(function(){const vs=[...document.querySelectorAll('.np-stat .v[data-to]')];if(!vs.length||matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
-  const fmt=(v,el)=>(+el.dataset.dec?v.toFixed(+el.dataset.dec):Math.round(v))+(el.dataset.suf||'');
-  vs.forEach(el=>{el.textContent=fmt(0,el);});
-  const io=new IntersectionObserver(es=>{if(!es.some(e=>e.isIntersecting))return;io.disconnect();const t0=performance.now(),D=1400;
-    const f=now=>{const u=Math.min(1,(now-t0)/D),e=1-Math.pow(1-u,3);vs.forEach(el=>{el.textContent=fmt(e*(+el.dataset.to),el);});if(u<1)requestAnimationFrame(f);};requestAnimationFrame(f);},{threshold:.4});
-  io.observe(vs[0].closest('.np-glance'));})();
-
 // thumbnails: three screens trade places like a carousel. Every few seconds the left one sweeps round behind the
 // centre to the far right (picking up a new screen on the way, if there are more), and the others slide over.
 const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;

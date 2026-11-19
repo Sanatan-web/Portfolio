@@ -54,14 +54,8 @@ a{color:inherit}
 
 /* ---------- selected work ---------- */
 .np-work{padding-top:8px}
-/* stats strip between the hero and the work: three figures in a row, a line above and below */
-.np-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(8px,2vw,24px);margin-bottom:0;padding:clamp(28px,3.4vw,40px) 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.np-stat{display:flex;flex-direction:column;align-items:center;gap:10px}
-.np-stat .v{font:400 clamp(28px,3.2vw,42px)/1 var(--serif);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
-.np-stat .l{font:400 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .np-pj{display:block;text-decoration:none;color:inherit;padding:clamp(36px,5.2vw,56px) 0 clamp(46px,6vw,70px);border-bottom:1px solid var(--line);cursor:pointer}
 .np-pj:first-child{padding-top:0}
-.np-pj:last-child{border-bottom:0}   /* the stats strip below brings its own line */
 .np-pj-media{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/7.6;background:var(--soft)}
 .np-pj-cta{z-index:3}
 /* project covers: three phones whose screens change in a wave */

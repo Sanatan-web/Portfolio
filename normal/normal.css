@@ -36,32 +36,32 @@ a{color:inherit}
 .np-rule{border:0;border-top:1px solid var(--line);margin:0}
 
 /* ---------- hero ---------- */
-/* first screen: photo + intro centred between the header and the fold; the fold cuts the stat numbers in half (a hint to scroll).
-   --peek = stats top padding + its border + half a stat number */
-:root{--head-h:74px;--glance-pad:clamp(26px,3vw,36px);--stat-v:clamp(28px,3.2vw,42px);--peek:calc(var(--glance-pad) + 1px + var(--stat-v) / 2)}
-.np-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;align-content:center;padding:clamp(28px,5vh,56px) 0;
-  min-height:calc(100vh - var(--head-h) - var(--peek));min-height:calc(100svh - var(--head-h) - var(--peek));box-sizing:border-box}
-.np-hero h1{margin:0;font:400 clamp(30px,3.3vw,44px)/1.24 var(--serif);letter-spacing:-.012em;color:var(--ink);max-width:21ch}
+/* hero, as in the reference: compact, intro on the left with client logos under it, portrait on the right;
+   the first project starts within the first screen. Hero + projects sit a little inside the header's edges. */
+.np-in{width:min(1120px,calc(var(--wrap) - 2*clamp(0px,2.2vw,30px)))}
+.np-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;padding:clamp(56px,8vw,104px) 0 clamp(72px,9vw,128px)}
+.np-hero h1{margin:0;font:400 clamp(26px,2.5vw,36px)/1.36 var(--serif);letter-spacing:-.01em;color:var(--ink);max-width:24ch}
 .np-hero h1 em{font-style:italic}
-.np-clients{margin-top:clamp(28px,4vw,44px);min-width:0}
+.np-clients{margin-top:clamp(24px,3vw,40px);min-width:0}
 .np-hero>*{min-width:0}
 /* client logos: one static row (wraps on small screens) */
 .np-logos{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:16px 34px}
 .np-clients li{display:flex;align-items:center}
 .np-clients img{display:block;width:auto;max-width:none;opacity:.85;transition:opacity .25s}
 .np-clients li:hover img{opacity:1}
-.np-portrait{justify-self:end;width:min(100%,380px);aspect-ratio:1;border-radius:5.6%;overflow:hidden}   /* the photo carries its own rounded corners */
+.np-portrait{justify-self:end;width:min(100%,360px);aspect-ratio:1;border-radius:5.6%;overflow:hidden}   /* the photo carries its own rounded corners */
 .np-portrait img{width:100%;height:100%;object-fit:cover}
 
 /* ---------- selected work ---------- */
 .np-work{padding-top:8px}
 /* stats strip between the hero and the work: three figures in a row, a line above and below */
-.np-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:0;margin-bottom:clamp(56px,8vw,88px);padding:var(--glance-pad) 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.np-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(8px,2vw,24px);margin-bottom:0;padding:clamp(28px,3.4vw,40px) 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .np-stat{display:flex;flex-direction:column;align-items:center;gap:10px}
-.np-stat .v{font:400 var(--stat-v)/1 var(--serif);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.np-stat .v{font:400 clamp(28px,3.2vw,42px)/1 var(--serif);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
 .np-stat .l{font:400 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .np-pj{display:block;text-decoration:none;color:inherit;padding:clamp(36px,5.2vw,56px) 0 clamp(46px,6vw,70px);border-bottom:1px solid var(--line);cursor:pointer}
 .np-pj:first-child{padding-top:0}
+.np-pj:last-child{border-bottom:0}   /* the stats strip below brings its own line */
 .np-pj-media{position:relative;border-radius:var(--radius);overflow:hidden;aspect-ratio:16/7.6;background:var(--soft)}
 .np-pj-cta{z-index:3}
 /* project covers: three phones whose screens change in a wave */
@@ -245,7 +245,7 @@ html.nv-lock,html.nv-lock body{overflow:hidden}
 /* ---------- small screens ---------- */
 @media (max-width:860px){
   .nv-grid.phones{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .np-hero{grid-template-columns:minmax(0,1fr);padding-top:40px}
+  .np-hero{grid-template-columns:minmax(0,1fr);padding-top:40px;padding-bottom:56px}
   .np-portrait{justify-self:start;width:min(100%,260px);order:-1}
   .np-grid{grid-template-columns:1fr}
 }

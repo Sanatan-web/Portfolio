@@ -182,26 +182,6 @@ function buildStart(){
   const wt=woodSign('NISHANT J. DIXIT',{sub:'PRODUCT DESIGNER · AI PRODUCTS'});cube('#3b2414',0,4.2,c-4,5.2,1.35,.05);plane(wt,5,1.25,0,4.2,c-4+.03,0);plane(wt,5,1.25,0,4.2,c-4-.03,PI);
   for(const x of[-1.9,1.9])cube('#2b2420',x,4.95,c-4,.05,.25,.05);
   lantern(-3.2,5.95,c-4);lantern(3.2,5.95,c-4);
-  // down the road, between the gate and Arivihan: a board on each side with the three headline stats (same as the simple page)
-  const stats=sign({w:512,h:640,draw(g,w,h){g.fillStyle='#ffffff';g.fillRect(0,0,w,h);g.strokeStyle='#141414';g.lineWidth=6;g.strokeRect(18,18,w-36,h-36);
-    g.fillStyle='#141414';g.font='24px '+PF;g.textAlign='center';g.textBaseline='alphabetic';g.fillText('AT A GLANCE',w/2,80);g.fillRect(70,102,w-140,4);
-    [['3.5+','YEARS OF EXPERIENCE'],['8+','PROJECTS SHIPPED'],['10M+','LIVES IMPACTED']].forEach(([v,l],i)=>{const y=214+i*166;
-      g.fillStyle='#141414';g.font='800 92px '+HF;g.fillText(v,w/2,y);g.fillStyle='#4a4a4a';g.font='17px '+PF;g.fillText(l,w/2,y+42);
-      if(i<2){g.fillStyle='#d8d8d8';g.fillRect(150,y+76,w-300,3);}});}});
-  // the other board: the companies I've designed for, logos only (the greyed logos from the simple page, darkened)
-  const LOGOS=[['peakmind',50],['arivihan',48],['edme',92],['hcl',42],['hoabl',88]];
-  const lc=document.createElement('canvas');lc.width=512;lc.height=640;const lg=lc.getContext('2d'),logos=new THREE.CanvasTexture(lc);logos.anisotropy=8;
-  const frame=()=>{lg.fillStyle='#ffffff';lg.fillRect(0,0,512,640);lg.strokeStyle='#141414';lg.lineWidth=6;lg.strokeRect(18,18,476,604);};frame();
-  if(!K.LOCAL_FILE){const ims=LOGOS.map(([n])=>{const im=new Image();im.src=K.BASE+'../img/logos/'+n+'.png?v=2';return im;});
-    Promise.all(ims.map(im=>im.decode().catch(()=>{}))).then(()=>{frame();const row=(640-60)/LOGOS.length;
-      LOGOS.forEach(([n,h],i)=>{const im=ims[i];if(!im.naturalWidth)return;let w=im.naturalWidth*h/im.naturalHeight;if(w>320){h*=320/w;w=320;}
-        const t=document.createElement('canvas');t.width=Math.ceil(w);t.height=Math.ceil(h);const tg=t.getContext('2d');tg.drawImage(im,0,0,w,h);tg.globalCompositeOperation='source-in';tg.fillStyle='#262626';tg.fillRect(0,0,w,h);
-        const cy=30+row*(i+.5);lg.drawImage(t,(512-w)/2,cy-h/2);if(i<LOGOS.length-1){lg.fillStyle='#e2e2e2';lg.fillRect(150,30+row*(i+1)-1,212,3);}});
-      logos.needsUpdate=true;});}
-  for(const sd of[-1,1]){const f=F(sd*5,-8,-sd*.42),tex=sd<0?stats:logos;   // left: stats · right: companies
-    for(const lx of[-.95,.95])f.cube('#2b2420',lx,1.7,0,.16,3.4,.16);
-    f.cube('#e9e7e2',0,2.05,0,2.3,2.86,.1);f.plane(tex,2.16,2.7,0,2.05,.06,0,0);f.plane(tex,2.16,2.7,0,2.05,-.06,PI,0);
-    f.cube('#2b2420',0,3.56,0,2.5,.12,.3);f.solid(0,0,2.4,.4);}
   // portal back to Normal Mode
   const px=-7.5,pz=c+4;for(let i=-2;i<=2;i++){blk('obsidian',px,.5,pz+i);blk('obsidian',px,5.5,pz+i);}for(let y=1;y<=4;y++){blk('obsidian',px,y+.5,pz-2);blk('obsidian',px,y+.5,pz+2);}
   const portal=screen(64,128,(g,t,w,h)=>{g.fillStyle='#4a12a8';g.fillRect(0,0,w,h);for(let i=0;i<60;i++){const y=((i*37+t*40*(1+i%3))%h),x=(i*53+sin(t+i)*6)%w;g.fillStyle=i%2?'rgba(210,140,255,.75)':'rgba(30,0,80,.6)';g.fillRect(x|0,y|0,2+(i%3),5+(i%4));}},12);

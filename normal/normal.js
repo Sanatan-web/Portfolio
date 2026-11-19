@@ -283,6 +283,9 @@ document.querySelectorAll('.np-show').forEach(carousel);
       await idle(900+Math.random()*1500);}})();
 })();
 
+// header height feeds the first-screen layout (photo + intro centred above the fold, stats half visible)
+(function(){const h=document.querySelector('.np-head');if(!h)return;const set=()=>de.style.setProperty('--head-h',h.offsetHeight+'px');set();addEventListener('resize',set);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(set);})();
+
 // the mode screen starts this page when Normal Mode is chosen
 window.NORMAL={start(){const m=document.getElementById('np-main');if(m&&!de.classList.contains('np-preview'))setTimeout(()=>m.focus({preventScroll:true}),60);},stop(){}};
 if(window.__modeGate)window.__modeGate.attach(window.NORMAL);else window.NORMAL.start();

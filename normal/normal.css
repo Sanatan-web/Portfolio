@@ -36,7 +36,11 @@ a{color:inherit}
 .np-rule{border:0;border-top:1px solid var(--line);margin:0}
 
 /* ---------- hero ---------- */
-.np-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;padding:clamp(64px,12vh,128px) 0 clamp(72px,12vh,120px)}
+/* first screen: photo + intro centred between the header and the fold; the fold cuts the stat numbers in half (a hint to scroll).
+   --peek = stats top padding + its border + half a stat number */
+:root{--head-h:74px;--glance-pad:clamp(26px,3vw,36px);--stat-v:clamp(28px,3.2vw,42px);--peek:calc(var(--glance-pad) + 1px + var(--stat-v) / 2)}
+.np-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;align-content:center;padding:clamp(28px,5vh,56px) 0;
+  min-height:calc(100vh - var(--head-h) - var(--peek));min-height:calc(100svh - var(--head-h) - var(--peek));box-sizing:border-box}
 .np-hero h1{margin:0;font:400 clamp(30px,3.3vw,44px)/1.24 var(--serif);letter-spacing:-.012em;color:var(--ink);max-width:21ch}
 .np-hero h1 em{font-style:italic}
 .np-clients{margin-top:clamp(28px,4vw,44px);min-width:0}
@@ -52,9 +56,9 @@ a{color:inherit}
 /* ---------- selected work ---------- */
 .np-work{padding-top:8px}
 /* stats strip between the hero and the work: three figures in a row, a line above and below */
-.np-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:clamp(24px,4vw,48px);margin-bottom:clamp(56px,8vw,88px);padding:clamp(26px,3.4vw,38px) 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.np-glance{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:0;margin-bottom:clamp(56px,8vw,88px);padding:var(--glance-pad) 0;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .np-stat{display:flex;flex-direction:column;align-items:center;gap:10px}
-.np-stat .v{font:400 clamp(28px,3.2vw,42px)/1 var(--serif);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.np-stat .v{font:400 var(--stat-v)/1 var(--serif);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
 .np-stat .l{font:400 11.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .np-pj{display:block;text-decoration:none;color:inherit;padding:clamp(36px,5.2vw,56px) 0 clamp(46px,6vw,70px);border-bottom:1px solid var(--line);cursor:pointer}
 .np-pj:first-child{padding-top:0}
@@ -241,7 +245,7 @@ html.nv-lock,html.nv-lock body{overflow:hidden}
 /* ---------- small screens ---------- */
 @media (max-width:860px){
   .nv-grid.phones{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .np-hero{grid-template-columns:minmax(0,1fr);padding-top:48px}
+  .np-hero{grid-template-columns:minmax(0,1fr);padding-top:40px}
   .np-portrait{justify-self:start;width:min(100%,260px);order:-1}
   .np-grid{grid-template-columns:1fr}
 }

@@ -85,11 +85,11 @@
   #ms#ms .ms-eyebrow{font-size:8.5px;letter-spacing:1.5px}
   #ms#ms h1{flex:none;margin:8px auto 18px;font-size:clamp(24px,7vw,30px);line-height:1.08}
   #ms#ms .ms-cards{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:clamp(14px,3vh,26px);width:100%}
-  #ms#ms .ms-card{min-height:0;gap:8px;justify-content:center}
-  #ms#ms .ms-prev{flex:1 1 0;min-height:0;aspect-ratio:auto;margin:0}
+  #ms#ms .ms-card{min-height:0;gap:6px;justify-content:center}
+  #ms#ms .ms-prev{flex:0 0 auto;width:70%;height:calc((100% - 76px) * .7);min-height:0;aspect-ratio:auto;margin:0}   /* 30% smaller than filling the space */
   #ms#ms .ms-prev canvas{position:absolute;inset:0}
-  #ms#ms h2{font-size:20px}
-  #ms#ms .ms-go{margin:4px 0 0;padding:11px 20px;font-size:14px}
+  #ms#ms h2{font-size:17px}
+  #ms#ms .ms-go{margin:4px 0 0;padding:10px 18px;font-size:13px}
   #ms#ms .ms-go::before{display:none}
 }
 @media (prefers-reduced-motion:reduce){

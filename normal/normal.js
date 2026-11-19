@@ -221,12 +221,12 @@ document.querySelectorAll('.np-show').forEach(carousel);
 (function(){
   const fab=document.querySelector('.np-fab'),cv=fab&&fab.querySelector('.np-me');if(!cv||de.classList.contains('np-preview'))return;
   const NAMES=['stand','walk0','walk1','walk2','walk3','walk4','walk5','walk6','walk7','jump','wave1','wave2','point','sit','lookL','lookR','turn','guard','punchR','punchL','kick'];
-  const FW=286,FH=390,FEET=363,HIP=294,SC=.5,CW=FW*SC,CH=FH*SC,dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+  const FW=286,FH=390,FEET=363,HIP=294,SC=.3,KS=SC/.5,CW=FW*SC,CH=FH*SC,dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
   cv.width=Math.round(CW*dpr);cv.height=Math.round(CH*dpr);cv.style.width=CW+'px';cv.style.height=CH+'px';cv.style.bottom=`calc(100% - ${((FH-FEET)*SC+2).toFixed(1)}px)`;
   const g=cv.getContext('2d'),sheet=new Image();sheet.decoding='async';sheet.src='img/explorer-sprites.webp';
   const HOME=-1;   // when he isn't walking he faces into the page (left), not off the edge of the screen
   const st={cx:0,y:0,rot:0,face:HOME,frame:'stand',sit:0,squash:1,behind:0};
-  const minC=()=>30,maxC=()=>Math.max(minC(),fab.clientWidth-30);
+  const minC=()=>22,maxC=()=>Math.max(minC(),fab.clientWidth-22);
   function render(){if(sheet.complete&&sheet.naturalWidth){g.clearRect(0,0,cv.width,cv.height);g.drawImage(sheet,NAMES.indexOf(st.frame)*FW,0,FW,FH,0,0,cv.width,cv.height);}
     const ty=(st.sit?(FEET-HIP)*SC:0)-st.y;
     // while he's behind the button, hide everything below its top edge
@@ -246,18 +246,18 @@ document.querySelectorAll('.np-show').forEach(carousel);
   const idle=ms=>run(ms,()=>{st.frame='stand';});
   async function walkTo(c){c=Math.max(minC(),Math.min(maxC(),c));const c0=st.cx,d=Math.abs(c-c0);if(d<6)return;st.face=c>c0?1:-1;
     await run(90,()=>{st.frame='turn';});
-    await run(d/70*1000,(u,t)=>{st.cx=c0+(c-c0)*u;st.frame='walk'+(Math.floor(t/95)%8);});
+    await run(d/(70*KS)*1000,(u,t)=>{st.cx=c0+(c-c0)*u;st.frame='walk'+(Math.floor(t/95)%8);});
     await run(90,()=>{st.frame='turn';});rest();st.face=HOME;}
   async function hop(h,flip){await run(110,()=>{st.squash=.9;});st.squash=1;st.frame='jump';const f=st.face;
-    await run(flip?660:420,u=>{st.y=4*h*u*(1-u);st.rot=flip?360*u*f:0;});rest();await run(120,()=>{st.squash=.92;});st.squash=1;}
+    await run(flip?660:420,u=>{st.y=4*h*KS*u*(1-u);st.rot=flip?360*u*f:0;});rest();await run(120,()=>{st.squash=.92;});st.squash=1;}
   async function wave(ms){st.face=HOME;await run(ms||1800,(u,t)=>{st.frame=Math.floor(t/240)%2?'wave2':'wave1';});rest();}
   async function look(){await run(700,()=>{st.frame='lookL';});await run(250,()=>{st.frame='stand';});await run(700,()=>{st.frame='lookR';});rest();}
   async function point(){st.face=HOME;await run(1400,()=>{st.frame='point';});rest();}
-  async function sit(){await walkTo(minC());const c0=st.cx,cs=2;st.face=HOME;await run(240,u=>{st.cx=c0+(cs-c0)*u;st.frame='jump';st.y=50*u*(1-u);});st.y=0;st.sit=1;
+  async function sit(){await walkTo(minC());const c0=st.cx,cs=2;st.face=HOME;await run(240,u=>{st.cx=c0+(cs-c0)*u;st.frame='jump';st.y=50*KS*u*(1-u);});st.y=0;st.sit=1;
     await run(3400,(u,t)=>{st.frame='sit';st.y=Math.sin(t/420)*1.4;});st.sit=0;rest();await hop(18,false);st.cx=Math.max(st.cx,minC());}
   // shadow boxing: guard, jab, cross, jab, kick, with a little bounce and a step on every hit
   async function fight(){st.face=HOME;const c0=st.cx,f=st.face;
-    const beat=(frame,ms,step)=>run(ms,(u,t)=>{st.frame=frame;st.y=Math.abs(Math.sin(t/95))*3;st.cx=c0+f*(step||0)*Math.sin(Math.PI*u);});
+    const beat=(frame,ms,step)=>run(ms,(u,t)=>{st.frame=frame;st.y=Math.abs(Math.sin(t/95))*3*KS;st.cx=c0+f*(step||0)*KS*Math.sin(Math.PI*u);});
     await beat('guard',420);await beat('punchR',150,8);await beat('guard',130);await beat('punchL',150,8);await beat('guard',130);await beat('punchR',150,10);
     await beat('guard',260);await beat('kick',380,6);await beat('guard',320);st.cx=c0;rest();}
   // arrival: peek from behind the button, look around, duck, then jump up onto it
@@ -265,9 +265,9 @@ document.querySelectorAll('.np-show').forEach(carousel);
     await run(1700,()=>{});
     await run(650,u=>{st.frame='stand';st.y=-CH+(CH+peekY)*ease(u);});
     await run(700,()=>{st.frame='lookL';});await run(700,()=>{st.frame='lookR';});
-    await run(160,u=>{st.frame='stand';st.y=peekY-18*u;});await run(260,u=>{st.y=peekY-18+18*ease(u);});await idle(350);
-    await run(150,u=>{st.y=peekY-22*u;});
-    st.frame='jump';const y0=st.y;await run(520,u=>{st.y=y0+(0-y0)*u+70*Math.sin(Math.PI*u);if(st.y>4)st.behind=0;});
+    await run(160,u=>{st.frame='stand';st.y=peekY-18*KS*u;});await run(260,u=>{st.y=peekY-18*KS+18*KS*ease(u);});await idle(350);
+    await run(150,u=>{st.y=peekY-22*KS*u;});
+    st.frame='jump';const y0=st.y;await run(520,u=>{st.y=y0+(0-y0)*u+70*KS*Math.sin(Math.PI*u);if(st.y>4)st.behind=0;});
     st.behind=0;rest();await run(140,()=>{st.squash=.88;});st.squash=1;
     await wave(1600);await hop(26,false);await hop(18,false);}
   let cheer=false;fab.addEventListener('pointerenter',()=>{cheer=true;});

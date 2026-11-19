@@ -1,0 +1,99 @@
+/* =====================================================================
+   Mode selection screen: Normal Mode and Immersive 3D Mode
+   A dark vaporwave grid room; on it, each mode is a picture, its name and a button.
+   ===================================================================== */
+#ms#ms{--ink:#f3eef9;--mute:#b4add0;
+  position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;overflow:auto;
+  background:#0a0718;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  opacity:1;transition:opacity .55s ease,visibility 0s;-webkit-font-smoothing:antialiased}
+#ms#ms.out{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .55s ease,visibility 0s linear .55s}
+#ms#ms[hidden]{display:none}
+#ms#ms:focus{outline:none}
+#ms#ms button{margin:0;padding:0;border:0;background:none;border-radius:0;font-size:inherit;box-shadow:none;transform:none;transition:none}
+#ms#ms .ms-bg{display:block;position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+/* scanlines + vignette over the grid */
+#ms#ms::after{content:"";position:fixed;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.6) 100%)}
+#ms#ms .ms-inner{position:relative;z-index:1;width:min(1120px,100%);margin:auto;padding:clamp(22px,4.5vh,60px) clamp(16px,4vw,40px) clamp(40px,8vh,96px);box-sizing:border-box;text-align:center}
+#ms#ms .ms-eyebrow{font:400 clamp(9px,.9vw,11px)/1.6 "Press Start 2P",monospace;letter-spacing:2px;color:#7fe8ff;text-shadow:0 0 12px rgba(127,232,255,.45)}
+#ms#ms h1{margin:14px auto clamp(48px,9vh,96px);max-width:24ch;text-wrap:balance;font:800 clamp(30px,4.6vw,56px)/1.04 Rubik,system-ui,sans-serif;letter-spacing:-.01em;color:#fff;
+  text-shadow:0 0 30px rgba(255,79,216,.38),0 2px 0 rgba(0,0,0,.45)}
+#ms#ms .ms-cards{display:grid;grid-template-columns:1fr 1fr}
+
+/* ---------- each option: a picture, its name and a button, floating on the grid (no card) ---------- */
+#ms#ms .ms-cards{max-width:960px;margin:0 auto;gap:clamp(36px,8vw,120px);text-align:center;align-items:start}
+#ms#ms .ms-card{--ac:#5ec8ff;--b1:#3d8bff;--b2:#2a64c7;--b3:#14254d;position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;cursor:pointer;outline:none}
+#ms#ms .ms-card[data-mode="cinematic"]{--ac:#7be35b;--b1:#4f9a2f;--b2:#3a7326;--b3:#1f2a14}
+#ms#ms .ms-prev{position:relative;width:100%;aspect-ratio:16/10;margin-bottom:6px;transition:transform .35s cubic-bezier(.2,.8,.2,1),filter .35s}
+#ms#ms .ms-prev canvas{display:block;width:100%;height:100%}
+#ms#ms .ms-card:hover .ms-prev,#ms#ms .ms-card.sel .ms-prev{transform:translateY(-8px)}
+/* Normal Mode: three real app screens from the case studies, fanned out in phones, floating in a soft glow */
+#ms#ms .ms-phones::before{content:"";position:absolute;inset:6% 12%;background:radial-gradient(closest-side,rgba(94,200,255,.3),rgba(94,200,255,0));filter:blur(8px)}
+#ms#ms .mp{--t:translate(0,0);position:absolute;top:5%;left:50%;height:90%;aspect-ratio:1012/2048;transform:translateX(-50%) var(--t);transition:transform .55s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 18px 28px rgba(0,0,0,.55))}
+#ms#ms .mp .in{position:absolute;inset:0;animation:msBob 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+#ms#ms .mp .scr{position:absolute;left:5.73%;top:2.49%;width:88.64%;height:95.12%;object-fit:cover;object-position:50% 0;border-radius:12% / 5.6%;background:#fff}
+#ms#ms .mp .fr{position:absolute;inset:0;width:100%;height:100%}
+#ms#ms .mp1{--t:translate(-74%,8%) rotate(-9deg) scale(.86);--d:-2s;z-index:1}
+#ms#ms .mp2{z-index:2}
+#ms#ms .mp3{--t:translate(74%,8%) rotate(9deg) scale(.86);--d:-4s;z-index:1}
+#ms#ms .ms-card:hover .mp1,#ms#ms .ms-card.sel .mp1{--t:translate(-92%,6%) rotate(-13deg) scale(.88)}
+#ms#ms .ms-card:hover .mp3,#ms#ms .ms-card.sel .mp3{--t:translate(92%,6%) rotate(13deg) scale(.88)}
+#ms#ms .ms-card:hover .mp2,#ms#ms .ms-card.sel .mp2{--t:translate(0,-3%) scale(1.03)}
+@keyframes msBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3.5%)}}
+/* Immersive 3D Mode: an animated isometric model of the real 3D world, floating on the grid */
+#ms#ms .ms-dio{-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 62%,transparent 100%)}
+#ms#ms .ms-card[data-mode="cinematic"]:hover .ms-dio,#ms#ms .ms-card[data-mode="cinematic"].sel .ms-dio{filter:drop-shadow(0 0 22px rgba(123,227,91,.25))}
+#ms#ms .ms-title{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 12px}   /* above the picture's drop shadow */
+#ms#ms h2{margin:0;font:800 clamp(22px,2.2vw,30px)/1.1 Rubik,system-ui,sans-serif;color:#fff}
+
+/* chunky game button, with a blinking pointer beside it when its panel is selected */
+#ms#ms .ms-go{position:relative;z-index:1;margin:18px 0 6px;display:inline-flex;align-items:center;gap:10px;padding:14px 26px;cursor:pointer;border-radius:999px;
+  font:700 16px/1.2 Rubik,system-ui,sans-serif;letter-spacing:.005em;color:#0c0e13;text-shadow:none;background:#fff;   /* same typeface as the titles */
+  box-shadow:0 0 0 1px rgba(255,255,255,.4),0 10px 26px rgba(0,0,0,.4);
+  transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+#ms#ms .ms-go .ar{display:inline-block;transition:transform .2s}
+#ms#ms .ms-card:hover .ms-go .ar,#ms#ms .ms-card.sel .ms-go .ar{transform:translateX(4px)}
+#ms#ms .ms-go .key{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;box-sizing:border-box;background:rgba(0,0,0,.38);box-shadow:inset 0 0 0 2px rgba(255,255,255,.28);font-size:9px;text-shadow:none}
+#ms#ms .ms-go::before{content:"";position:absolute;left:-24px;top:50%;width:11px;height:14px;margin-top:-7px;background:var(--ac);clip-path:polygon(0 0,100% 50%,0 100%);opacity:0;filter:drop-shadow(0 0 6px var(--ac))}
+#ms#ms .ms-card:hover .ms-go::before,#ms#ms .ms-card.sel .ms-go::before,#ms#ms .ms-go:focus-visible::before{opacity:1;animation:msPoint .9s steps(2,jump-none) infinite}
+@keyframes msPoint{0%{transform:translateX(0)}100%{transform:translateX(5px)}}
+#ms#ms .ms-go:hover,#ms#ms .ms-card:hover .ms-go,#ms#ms .ms-card.sel .ms-go{transform:translateY(-2px);box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 35%,transparent),0 14px 32px rgba(0,0,0,.45)}
+#ms#ms .ms-go:active{transform:translateY(0) scale(.97)}
+#ms#ms .ms-go:focus-visible{outline:3px solid #ffd65a;outline-offset:5px}
+
+/* loading + errors (Immersive 3D Mode) */
+#ms#ms .ms-load{display:none;align-items:center;gap:12px;margin-top:4px;font:400 10px/1.4 "Press Start 2P",monospace;color:var(--ac)}
+#ms#ms .ms-load i{display:block;width:120px;height:10px;background:#000;box-shadow:0 0 0 2px #000,inset 0 0 0 2px rgba(255,255,255,.08);position:relative;overflow:hidden}
+#ms#ms .ms-load i::after{content:"";position:absolute;inset:2px auto 2px 2px;width:30%;background:var(--ac);animation:msLoad 1s steps(8) infinite}
+@keyframes msLoad{from{left:2px}to{left:calc(100% - 30% - 2px)}}
+#ms#ms .ms-card.loading:not(.zoomed) .ms-go{display:none}
+#ms#ms .ms-card.zoomed .ms-load{display:none}
+#ms#ms .ms-card.loading .ms-load{display:flex}
+#ms#ms .ms-err{display:none;font-size:13px;line-height:1.5;color:#ff9a8a}
+#ms#ms .ms-card.err .ms-err{display:block}
+
+
+@media (max-width:760px){
+  #ms#ms{align-items:flex-start}
+  #ms#ms .ms-cards{grid-template-columns:1fr}
+  #ms#ms .ms-card{gap:12px}
+}
+@media (prefers-reduced-motion:reduce){
+  #ms#ms,#ms#ms .ms-card,#ms#ms .ms-card::after{transition:none}
+  #ms#ms .ms-load i::after,#ms#ms .ms-go::before,#ms#ms .mp .in{animation:none}
+}
+/* choosing a mode: its picture zooms to fill the screen while everything else fades away */
+#ms#ms.zooming{overflow:hidden}
+#ms#ms.zooming .ms-eyebrow,#ms#ms.zooming h1,#ms#ms.zooming .ms-card:not(.zoomed),#ms#ms.zooming .ms-card.zoomed>:not(.ms-prev){opacity:0;transition:opacity .35s ease;pointer-events:none}
+#ms#ms.zooming .ms-card.zoomed{z-index:5}
+#ms#ms.zooming .ms-card.zoomed .ms-prev{z-index:5;filter:none}
+#ms#ms.zooming .ms-card.zoomed .mp .in{animation-play-state:paused}
+#ms#ms .ms-zl{position:fixed;left:50%;bottom:clamp(28px,8vh,72px);z-index:10;display:flex;align-items:center;gap:12px;padding:12px 18px;transform:translate(-50%,10px);border-radius:999px;background:rgba(8,6,20,.78);
+  font:400 10px/1.4 "Press Start 2P",monospace;color:#7be35b;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+#ms#ms .ms-zl i{display:block;width:96px;height:8px;background:#000;position:relative;overflow:hidden;border-radius:4px}
+#ms#ms .ms-zl i::after{content:"";position:absolute;inset:0 auto 0 0;width:30%;background:#7be35b;animation:msLoad 1s steps(8) infinite}
+#ms#ms.waiting .ms-zl{opacity:1;transform:translate(-50%,0)}
+/* while Immersive 3D Mode is active the page underneath stays still */
+html.imm-on,html.imm-on body{background:#000!important;overflow:hidden!important}
+/* the page underneath doesn't scroll while the chooser is up */
+html.ms-on,html.ms-on body{overflow:hidden}

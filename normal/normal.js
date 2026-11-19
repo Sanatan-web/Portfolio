@@ -181,8 +181,9 @@ document.querySelectorAll('[data-modes]').forEach(b=>b.addEventListener('click',
 // reveal sections as they scroll in; clips in the cards play only while on screen
 const rv=[...document.querySelectorAll('.np-rv')];
 if('IntersectionObserver' in window){
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -8% 0px',threshold:.08});
-  rv.forEach(n=>io.observe(n));
+  // anything already on screen when the page opens shows straight away; the rest fades in as soon as it touches the screen
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -24px 0px',threshold:0});
+  rv.forEach(n=>{if(n.getBoundingClientRect().top<innerHeight){n.style.transition='none';n.classList.add('in');requestAnimationFrame(()=>requestAnimationFrame(()=>{n.style.transition='';}));}else io.observe(n);});
   const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting&&!document.hidden){const p=v.play();if(p&&p.catch)p.catch(()=>{});}else v.pause();}),{threshold:.25});
   document.querySelectorAll('.np-card video').forEach(v=>vio.observe(v));
 }else rv.forEach(n=>n.classList.add('in'));

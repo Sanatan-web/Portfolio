@@ -39,7 +39,7 @@ a{color:inherit}
 /* hero, as in the reference: compact, intro on the left with client logos under it, portrait on the right;
    the first project starts within the first screen. Hero + projects sit a little inside the header's edges. */
 .np-in{width:min(1120px,calc(var(--wrap) - 2*clamp(0px,2.2vw,30px)))}
-.np-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;padding:clamp(72px,10vw,144px) 0 clamp(96px,12vw,168px)}
+.np-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;padding:calc(clamp(72px,10vw,144px) - 32px) 0 calc(clamp(96px,12vw,168px) + 32px)}   /* photo + intro sit 32px higher; the first project stays put */
 .np-hero h1{margin:0;font:400 clamp(26px,2.5vw,36px)/1.36 var(--serif);letter-spacing:-.01em;color:var(--ink);max-width:24ch}
 .np-hero h1 em{font-style:italic}
 .np-clients{margin-top:clamp(24px,3vw,40px);min-width:0}

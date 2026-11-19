@@ -9,7 +9,7 @@
 const de=document.documentElement;
 const BASE=((document.currentScript&&document.currentScript.src)||'immersive/modes.js').replace(/modes\.js(\?.*)?$/,'');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const V='20261121o';   // bump this after changing any immersive/ file so browsers fetch the new copy
+const V='20261121p';   // bump this after changing any immersive/ file so browsers fetch the new copy
 const THREE_URL='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 const PREVIEW=/[?&]preview=1/.test(location.search);
 if(PREVIEW){de.classList.remove('ms-wait');window.__normalIdle=false;return;}

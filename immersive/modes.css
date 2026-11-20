@@ -78,15 +78,16 @@
   #ms#ms .ms-cards{grid-template-columns:1fr}
   #ms#ms .ms-card{gap:12px}
 }
-/* phones (portrait): everything fits on one screen, no scrolling — the two options share the height left under the heading */
+/* phones (portrait): one screen, no scrolling — top 30% name, role and question · next 55% the two options · last 15% left empty */
 @media (max-width:760px) and (min-height:540px){
   #ms#ms{overflow:hidden;align-items:stretch}
-  #ms#ms .ms-inner{display:flex;flex-direction:column;height:100vh;height:100svh;padding:max(18px,env(safe-area-inset-top)) 18px max(18px,env(safe-area-inset-bottom))}
-  #ms#ms .ms-eyebrow{font-size:8.5px;letter-spacing:1.5px}
-  #ms#ms h1{flex:none;margin:8px auto 18px;font-size:clamp(24px,7vw,30px);line-height:1.08}
-  #ms#ms .ms-cards{flex:1;min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:clamp(14px,3vh,26px);width:100%}
+  #ms#ms .ms-inner{display:grid;grid-template-rows:30fr 55fr 15fr;grid-template-columns:minmax(0,1fr);height:100vh;height:100svh;padding:env(safe-area-inset-top) 18px env(safe-area-inset-bottom)}
+  #ms#ms .ms-head{min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  #ms#ms .ms-eyebrow{font-size:8px;letter-spacing:1.4px}
+  #ms#ms h1{margin:10px auto 0;font-size:clamp(24px,7vw,30px);line-height:1.08}
+  #ms#ms .ms-cards{min-height:0;display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);align-items:stretch;gap:2px;width:100%}   /* the 3D picture fades in at its top edge, so a small gap already reads as space */
   #ms#ms .ms-card{min-height:0;gap:6px;justify-content:center}
-  #ms#ms .ms-prev{flex:0 0 auto;width:70%;height:calc((100% - 76px) * .7);min-height:0;aspect-ratio:auto;margin:0}   /* 30% smaller than filling the space */
+  #ms#ms .ms-prev{flex:1 1 0;width:70%;height:auto;min-height:0;aspect-ratio:auto;margin:0}   /* the picture takes what its half of the 55% leaves after name and button */
   #ms#ms .ms-prev canvas{position:absolute;inset:0}
   #ms#ms h2{font-size:17px}
   #ms#ms .ms-go{margin:4px 0 0;padding:10px 18px;font-size:13px}

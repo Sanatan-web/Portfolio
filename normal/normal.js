@@ -45,10 +45,10 @@ const WORKS={
   designs:{title:'More designs',layout:'phones',uniform:2.168,noCaps:true,items:['dark-1','dark-2','adaptive-1','adaptive-2','atelier-1','atelier-2','atelier-3','atelier-4','atelier-5','atelier-6','atelier-7','atelier-8','bloom-1','bloom-2','bloom-3','bloom-4']
     .map(n=>({src:'img/screens/designs/'+n+'.webp',cap:''}))},
   framer:{title:'Framer works',layout:'wide',items:[
-    {src:'img/framer/shop and source.png',cap:'shopandsource.com'},
+    {src:'img/framer/shop and source.png',cap:'shopandsource.com',url:'https://shopandsource.com/'},
     {src:'img/framer/delta optix.png',cap:'deltaoptix.com'}]},
   vibe:{title:'Vibecoding works',layout:'wide',items:[
-    {src:'img/vibe/vibe 1.png',cap:'thefallenheroes.in'},
+    {src:'img/vibe/vibe 1.png',cap:'thefallenheroes.in',url:'https://thefallenheroes.in/'},
     {src:'',cap:'Adding soon'}]}
 };
 
@@ -87,7 +87,10 @@ const NV=(()=>{
       // websites: inside a desktop Mac
       if(W.layout==='wide'){const mac=document.createElement('div');mac.className='mac';mac.innerHTML='<div class="mac-body"><div class="mac-bez"><div class="mac-scr"></div></div></div><i class="mac-neck"></i><i class="mac-foot"></i>';
         const scr=mac.querySelector('.mac-scr');if(it.src)scr.appendChild(media(it.src,it.cap||W.title+' '+(j+1),true));else{const s=document.createElement('span');s.className='soon';s.textContent='COMING SOON';scr.appendChild(s);}
-        f.appendChild(mac);if(it.cap){const c=document.createElement('figcaption');c.textContent=it.cap;f.appendChild(c);}g.appendChild(f);return;}
+        f.appendChild(mac);if(it.cap){const c=document.createElement('figcaption');c.textContent=it.cap;f.appendChild(c);}
+        // a site that is live gets a button under its mockup (Delta Optix is unpublished on Framer for now, so it has no url)
+        if(it.url){const l=document.createElement('a');l.className='np-live';l.href=it.url;l.target='_blank';l.rel='noopener';l.setAttribute('aria-label','View live site: '+(it.cap||it.url)+' (opens in a new tab)');l.innerHTML='View live site <span aria-hidden="true">↗</span>';f.appendChild(l);}
+        g.appendChild(f);return;}
       const m=document.createElement('div');m.className='m';
       // phone screens sit inside the phone outline
       let box=m;if(W.layout==='phones'){m.classList.add('pf');box=document.createElement('div');box.className='pf-s';m.appendChild(box);}

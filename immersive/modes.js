@@ -9,7 +9,7 @@
 const de=document.documentElement;
 const BASE=((document.currentScript&&document.currentScript.src)||'immersive/modes.js').replace(/modes\.js(\?.*)?$/,'');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const V='20261122a';   // bump this after changing any immersive/ file so browsers fetch the new copy
+const V='20261122d';   // bump this after changing any immersive/ file so browsers fetch the new copy
 const THREE_URL='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 const PREVIEW=/[?&]preview=1/.test(location.search);
 if(PREVIEW){de.classList.remove('ms-wait');window.__normalIdle=false;return;}
@@ -25,8 +25,8 @@ let state='select',loader=null,raf=0,sel=-1,hideT=0;
 const ms=document.createElement('div');ms.id='ms';ms.tabIndex=-1;ms.setAttribute('role','dialog');ms.setAttribute('aria-modal','true');ms.setAttribute('aria-labelledby','msTitle');
 ms.innerHTML=`<canvas class="ms-bg" aria-hidden="true"></canvas>
 <div class="ms-inner">
-  <div class="ms-eyebrow">NISHANT J. DIXIT · PRODUCT DESIGNER</div>
-  <h1 id="msTitle">How would you like to explore my portfolio?</h1>
+  <div class="ms-head"><div class="ms-eyebrow">NISHANT J. DIXIT · PRODUCT DESIGNER</div>
+  <h1 id="msTitle">How would you like to explore my portfolio?</h1></div>
   <div class="ms-zl" aria-live="polite"><i></i><span>Building the world…</span></div>
   <div class="ms-cards">
     <article class="ms-card" data-mode="normal">

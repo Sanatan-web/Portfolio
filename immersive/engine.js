@@ -144,7 +144,8 @@ let hemi,sun,sky,skyU,dust;
 const chunks=[],items=[],zones=[],solids=[],always=[],screens=[],signDraws=[];
 let CH=null,amb=[];
 const P={x:0,z:10,yaw:0,pitch:-.03,vx:0,vz:0,speed:0,bob:0,eye:1.62,stop:0};
-let view=(()=>{try{return localStorage.getItem('imm-view')==='third'?'third':'first';}catch(e){return'first';}})(),avatar=null;
+// third person by default; a visitor's own choice (V or the View button) is remembered
+let view=(()=>{try{return localStorage.getItem('imm-view2')==='first'?'first':'third';}catch(e){return'third';}})(),avatar=null;
 let ride=null,CINE=false;const LOOKS=[];
 const baseFov=()=>CINE?60:70;
 let state='off',cb={},target=null,curZone=null,travel=null,intro=null,first=true,lastZone=null,panelId=null;
@@ -334,7 +335,7 @@ function buildNav(){
     b.addEventListener('click',()=>{lock();travelTo(z.id);});el.track.appendChild(b);z.dot=b;
     const m=document.createElement('button');m.type='button';m.style.setProperty('--c',z.accent||'#ffd65a');m.innerHTML=`<span class="n">${esc(z.num||'·')}</span><span class="t"><b>${esc(z.name)}</b><small>${esc(z.blurb||'')}</small></span><span class="go">${i<9?'Press '+(i+1):''}</span>`;
     m.addEventListener('click',()=>{lock();travelTo(z.id);});el.list.appendChild(m);z.item=m;});}
-function setView(v,announce){view=v;try{localStorage.setItem('imm-view',v);}catch(e){}root.classList.toggle('third',v==='third');
+function setView(v,announce){view=v;if(announce){try{localStorage.setItem('imm-view2',v);}catch(e){}}root.classList.toggle('third',v==='third');
   const l=root.querySelector('.im-view-l');if(l)l.textContent=v==='third'?'3rd person':'1st person';const b=root.querySelector('.im-b-view2');if(b)b.textContent=v==='third'?'First-person view':'Third-person view';
   if(announce)toast(v==='third'?'Third-person view':'First-person view');}
 let toastT=0;function toast(msg){el.toast.textContent=msg;el.toast.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>el.toast.classList.remove('on'),2200);}

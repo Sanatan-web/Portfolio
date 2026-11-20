@@ -140,15 +140,12 @@ a{color:inherit}
 .np-card:hover .np-card-media>.mac{transform:translate(-50%,calc(-50% - 6px))}
 .nv-grid.wide .mac{padding:4% 6% 0}
 .nv-grid.wide figcaption{text-align:center}
-/* "View live site" under a website mockup: on the Framer and Vibecoding cards (beside the title) and under each site in their gallery */
-.np-card-w{position:relative}
-.np-card-w h3{padding-right:200px}
+/* "View live site" under each website mockup in the Framer and Vibecoding galleries */
 .np-live{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
 .np-live span{transition:transform .2s}
 .np-live:hover{background:var(--ink);color:#fff}
 .np-live:hover span{transform:translate(2px,-2px)}
 .np-live:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.np-card-w>.np-live{position:absolute;right:0;bottom:-2px}
 .nv-grid.wide figure{text-align:center}
 .nv-grid.wide figure .np-live{margin-top:14px}
 
@@ -261,8 +258,6 @@ html.nv-lock,html.nv-lock body{overflow:hidden}
   .np-logos{flex-wrap:nowrap;justify-content:center;gap:24px;margin-top:14px}   /* one row; all five scaled down evenly */
   .np-logos li{flex:none}
   .np-grid{grid-template-columns:1fr}
-  .np-card-w h3{padding-right:0}
-  .np-card-w>.np-live{position:static;margin-top:14px}
 }
 @media (max-width:600px){
   .np-logos{zoom:.74;gap:20px}
